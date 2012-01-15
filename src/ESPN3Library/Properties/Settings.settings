@@ -1,0 +1,18 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="ESPN3Library.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="WMCAuthorizationKey" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">3ce51f90-f6eb-437e-9680-802f20e0160e</Value>
+    </Setting>
+    <Setting Name="BaseVideoUrl" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">http://assets.espn.go.com/espn360/builds/espn3-player-web-app/1_16/espn3-player-web-app-1.16.swf?configUrl=http://espn.go.com/watchespn/player/config&amp;playerSize={0}&amp;id={1}</Value>
+    </Setting>
+    <Setting Name="BaseDataUrlAddition" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">/index/_/sport/</Value>
+    </Setting>
+    <Setting Name="BaseDataUrl" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">http://espn.go.com/watchespn/feeds/startup?action={0}&amp;rand={1}</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

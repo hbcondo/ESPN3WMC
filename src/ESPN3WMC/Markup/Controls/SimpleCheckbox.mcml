@@ -1,0 +1,124 @@
+<Mcml xmlns="http://schemas.microsoft.com/2006/mcml"
+      xmlns:cor="assembly://MSCorLib/System"
+      xmlns:a="assembly://ESPN3WMC/ESPN3WMC"
+      xmlns:me="Me">
+
+  <Aggregate Source="resx://ESPN3WMC/ESPN3WMC.Resources/Base" />
+  
+  <UI Name="SimpleCheckbox">
+
+    <Properties>
+      <BooleanChoice Name="Checked" BooleanChoice="$Required" />
+    </Properties>
+
+    <Locals>
+
+      <ClickHandler Name="Clicker" />
+      <BooleanTransformer Name="BooleanInverseTransformer" Inverse="true" />
+
+    </Locals>
+
+    <Rules>
+
+      <Default Target="[Input.KeyInteractive]" Value="true" />
+      <Binding Source="[Checked.Description]" Target="[Label.Content]"/>
+
+      <Changed Source="[Clicker.Invoked]">
+        <Actions>
+          <Set Target="[Checked.Value]" Value="[Checked.Value]" Transformer="[BooleanInverseTransformer]" />
+        </Actions>
+      </Changed>
+
+      <Condition Source="[Clicker.Clicking]" SourceValue="true">
+        <Conditions>
+          <Equality Source="[Checked.Value]" Value="true" />
+        </Conditions>
+        <Actions>
+          <Set Target="[Background.Content]" Value="image://me:FirstRunCheckBoxCheckedFocus" />
+        </Actions>
+      </Condition>
+
+      <Condition Source="[Clicker.Clicking]" SourceValue="true">
+        <Conditions>
+          <Equality Source="[Checked.Value]" Value="false" />
+        </Conditions>
+        <Actions>
+          <Set Target="[Background.Content]" Value="image://me:FirstRunCheckBoxUncheckedFocus" />
+        </Actions>
+      </Condition>
+
+      <Condition Source="[Input.KeyFocus]" SourceValue="true">
+        <Conditions>
+          <Equality Source="[Checked.Value]" Value="true" />
+        </Conditions>
+        <Actions>
+          <Set Target="[Background.Content]" Value="image://me:FirstRunCheckBoxCheckedFocus" />
+        </Actions>
+      </Condition>
+
+      <Condition Source="[Input.KeyFocus]" SourceValue="true">
+        <Conditions>
+          <Equality Source="[Checked.Value]" Value="false" />
+        </Conditions>
+        <Actions>
+          <Set Target="[Background.Content]" Value="image://me:FirstRunCheckBoxUncheckedFocus" />
+        </Actions>
+      </Condition>
+
+      <Condition Source="[Input.KeyFocus]" SourceValue="false">
+        <Conditions>
+          <Equality Source="[Checked.Value]" Value="true" />
+        </Conditions>
+        <Actions>
+          <Set Target="[Background.Content]" Value="image://me:FirstRunCheckBoxCheckedNoFocus" />
+        </Actions>
+      </Condition>
+
+      <Condition Source="[Input.KeyFocus]" SourceValue="false">
+        <Conditions>
+          <Equality Source="[Checked.Value]" Value="false" />
+        </Conditions>
+        <Actions>
+          <Set Target="[Background.Content]" Value="image://me:FirstRunCheckBoxUncheckedNoFocus" />
+        </Actions>
+      </Condition>
+
+    </Rules>
+
+    <Content>
+
+      <Panel>
+
+        <Layout>
+          <FlowLayout Orientation="Horizontal" ItemAlignment="Center" />
+        </Layout>
+
+        <Children>
+
+          <Panel Name="Items" Layout="HorizontalFlow">
+            <Children>
+
+              <Graphic Name="Background" Content="image://me:FirstRunCheckBoxUncheckedNoFocus" Margins="0,0,0,0" MaximumSize="34,34" />
+              <Text Name="Label" Color="White" Font="font://me:Font" Margins="10,0,0,10" />
+
+            </Children>
+          </Panel>
+
+        </Children>
+
+      </Panel>
+    </Content>
+
+  </UI>
+
+  <Font Name="Font"                               FontName="global://me:RegularFontName" FontSize="20" />
+  <Image Name="FirstRunCheckBoxCheckedDisabled"   Source="resx://ESPN3WMC/ESPN3WMC.Resources/FirstRunCheckBoxCheckedDisabled"/>
+  <Image Name="FirstRunCheckBoxCheckedFocus"      Source="resx://ESPN3WMC/ESPN3WMC.Resources/FirstRunCheckBoxCheckedFocus"/>
+  <Image Name="FirstRunCheckBoxCheckedNoFocus"    Source="resx://ESPN3WMC/ESPN3WMC.Resources/FirstRunCheckBoxCheckedNoFocus"/>
+  <Image Name="FirstRunCheckBoxCheckedPressed"    Source="resx://ESPN3WMC/ESPN3WMC.Resources/FirstRunCheckBoxCheckedPressed"/>
+  <Image Name="FirstRunCheckBoxUncheckedDisabled" Source="resx://ESPN3WMC/ESPN3WMC.Resources/FirstRunCheckBoxUncheckedDisabled"/>
+  <Image Name="FirstRunCheckBoxUncheckedFocus"    Source="resx://ESPN3WMC/ESPN3WMC.Resources/FirstRunCheckBoxUncheckedFocus"/>
+  <Image Name="FirstRunCheckBoxUncheckedNoFocus"  Source="resx://ESPN3WMC/ESPN3WMC.Resources/FirstRunCheckBoxUncheckedNoFocus"/>
+  <Image Name="FirstRunCheckBoxUncheckedPressed"  Source="resx://ESPN3WMC/ESPN3WMC.Resources/FirstRunCheckBoxUncheckedPressed"/>
+
+</Mcml>

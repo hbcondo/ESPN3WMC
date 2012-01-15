@@ -1,0 +1,103 @@
+<Mcml xmlns="http://schemas.microsoft.com/2008/mcml"
+      xmlns:cor="assembly://MSCorLib/System"
+      xmlns:ws="assembly://ESPN3WMC/ESPN3WMC.wsESPN3"
+      xmlns:me="Me">
+
+  <Aggregate Source="resx://ESPN3WMC/ESPN3WMC.Resources/ListItem" />  
+  
+  <UI Name="GroupItem">
+    <Properties>
+      <ws:League Name="League" />
+      <ModelItem Name="MatchDetails1" />
+      <ModelItem Name="MatchDetails2" />
+      <ModelItem Name="MatchDetails3" />
+      <Index Name="MyIndex"
+             Index="$Required"/>
+      <ModelItem Name="ParentLabel"
+                 ModelItem="$Required"/>
+      <ModelItem Name="ParentLabel2"
+                 ModelItem="$Required"/>
+    </Properties>
+
+    <Locals>
+      <ClickHandler Name="Clicker"/>
+
+      <!-- The ScrollingHandler which reacts to user keyboard input. -->
+      <ScrollingHandler Name="ScrollingHandler"
+                        HandlerStage="Bubbled"/>
+
+      <!-- The ScrollingData object controls Scrolling state and configuration -->
+      <ScrollingData Name="ScrollingData"
+                     PageStep="1"/>
+    </Locals>
+
+    <Rules>
+      <!-- Give ScrollingData to ScrollingHandler. -->
+      <Default Target="[ScrollingHandler.ScrollingData]"
+               Value="[ScrollingData]"/>
+
+      <!-- Give Repeater to ScrollingData. -->
+      <Default Target="[ScrollingData.Repeater]"
+               Value="[ListRepeater]"/>
+    </Rules>
+
+    <Content>
+      <ColorFill Name="Background"
+                 Content="Transparent"
+                 Padding="5,5,5,5"
+                 MouseInteractive="true">
+        <Children>
+          <ColorFill Content="Transparent"
+                     MinimumSize="0,100" MaximumSize="0,400"
+                     Layout="HorizontalFlow">
+            <Children>
+              <Panel>
+                <Layout>
+                  <RotateLayout AngleDegrees="90" />
+                </Layout>
+                <Children>
+                  <Text Name="Label"
+                        Content="[League.Name]"
+                        Color="DeepSkyBlue"
+                        Font="Verdana,20"
+                        MaximumSize="0,400" />
+                </Children>
+              </Panel>
+              <ColorFill Content="Transparent" Layout="VerticalFlow">
+                <Children>
+                  <!-- The Scroller. It referrs to the ScrollingData too. -->
+                  <Scroller Orientation="Vertical"
+                            MinimumSize="0,400"
+                            MaximumSize="0,400"
+                            FadeSize="-1"
+                            ScrollingData="[ScrollingData]">
+                    <Children>
+                      <Repeater Name="ListRepeater" Source="[League.Matches]">
+                        <Layout>
+                          <FlowLayout Orientation="Vertical" />
+                        </Layout>
+                        <Content>
+                          <me:ListItem
+                            Match="[RepeatedItem!ws:Match]"
+                            League="[League.Name]"
+                            IndexTotal="[League.Matches.Length]"
+                            MyIndex="[RepeatedItemIndex]"
+                            ParentLabel="[ParentLabel]"
+                            ParentLabel2="[ParentLabel2]"
+                            MatchDetails1="[MatchDetails1]"
+                            MatchDetails2="[MatchDetails2]"
+                            MatchDetails3="[MatchDetails3]" />
+                        </Content>
+                      </Repeater>
+                    </Children>
+                  </Scroller>
+                </Children>
+              </ColorFill>
+            </Children>
+          </ColorFill>
+        </Children>
+      </ColorFill>
+    </Content>
+  </UI>
+
+</Mcml>

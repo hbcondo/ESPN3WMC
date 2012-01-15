@@ -1,0 +1,57 @@
+<Mcml xmlns="http://schemas.microsoft.com/2008/mcml">
+  <UI Name="Footer">
+    <Properties>
+      <ModelItem Name="ParentModel"
+                  ModelItem="$Required"/>
+      <ModelItem Name="ParentModel2"
+                  ModelItem="$Required"/>
+      <ModelItem Name="MatchDetails1" />
+      <ModelItem Name="MatchDetails2" />
+      <ModelItem Name="MatchDetails3" />
+      <Font Name="Font" Font="Verdana,18" />
+      <Color Name="Color" Color="White" />
+      <Color Name="Color2" Color="DeepSkyBlue" />
+      <Image Name="ImageLogo" Image="resx://ESPN3WMC/ESPN3WMC.Resources/espn3_logo" />
+    </Properties>
+    <Rules>
+      <Binding Source="[ParentModel.Description]" Target="[ListItemIndex.Content]" />
+      <Binding Source="[ParentModel2.Description]" Target="[ListItemTotal.Content]" />
+      <Binding Source="[MatchDetails1.Description]" Target="[Description.Content]" />
+      <Binding Source="[MatchDetails2.Description]" Target="[Occurrence.Content]" />
+      <Binding Source="[MatchDetails3.Description]" Target="[Coverage.Content]" />
+    </Rules>
+    <Content>
+      <ColorFill Content="Transparent" Layout="HorizontalFlow">
+        <Children>
+          <Panel Name="ListDetails" Margins="10,0,0,0">
+            <Layout>
+              <FlowLayout Orientation="Vertical" />
+            </Layout>
+            <Children>
+              <Text Name="Description" Font="[Font]" Color="[Color]" />
+              <Text Name="Occurrence" Font="[Font]" Color="[Color2]" />
+              <Text Name="Coverage" Font="[Font]" Color="[Color2]" />
+            </Children>
+          </Panel>
+          <Panel>
+            <Layout>
+              <FlowLayout Orientation="Vertical" />
+            </Layout>
+            <Children>
+              <Panel Name="Pagination" Padding="0,55,0,0">
+                <Layout>
+                  <FlowLayout Orientation="Horizontal" StripAlignment="Far" />
+                </Layout>
+                <Children>
+                  <Text Name="ListItemIndex" Font="[Font]" Color="[Color]" />
+                  <Text Name="ListItemDivider" Content="|" Font="[Font]" Color="[Color2]" />
+                  <Text Name="ListItemTotal" Font="[Font]" Color="[Color2]" />
+                </Children>
+              </Panel>
+            </Children>
+          </Panel>
+        </Children>
+      </ColorFill>
+    </Content>
+  </UI>
+</Mcml>

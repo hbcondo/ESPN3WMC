@@ -1,0 +1,202 @@
+<Mcml xmlns="http://schemas.microsoft.com/2008/mcml"
+      xmlns:me="Me"
+      xmlns:a="assembly://ESPN3WMC/ESPN3WMC"
+      xmlns:ws="assembly://ESPN3WMC/ESPN3WMC.wsESPN3"
+      xmlns:cor="assembly://MSCorLib/System"
+      xmlns:text="assembly://MsCorLib/System.Text"
+      xmlns:addin="assembly://Microsoft.MediaCenter/Microsoft.MediaCenter.Hosting">
+
+  <Aggregate Source="resx://ESPN3WMC/ESPN3WMC.Resources/Base" />
+  <Aggregate Source="resx://ESPN3WMC/ESPN3WMC.Resources/Controls" />
+  <Aggregate Source="resx://ESPN3WMC/ESPN3WMC.Resources/GroupItem" />
+  <Aggregate Source="resx://ESPN3WMC/ESPN3WMC.Resources/Footer" />
+  
+  <UI Name="Homepage">
+    <Properties>
+      <a:Homepage Name="ESPN3" Homepage="$Required" />
+      <BooleanChoice Name="IsPivotActive" Value="false" />
+    </Properties>
+
+    <Locals>
+      <!-- The ScrollingHandler which reacts to user keyboard input. -->
+      <ScrollingHandler Name="ScrollingHandler"
+                        HandlerStage="Bubbled" />
+
+      <!-- The ScrollingData object controls Scrolling state and configuration -->
+      <ScrollingData Name="ScrollingData"
+                     PageStep="1"
+                     />     
+
+      <ModelItem Name="ParentModel" />    <!-- Selected Index -->
+      <ModelItem Name="ParentModel2" />   <!-- Total Count -->
+      <ModelItem Name="MatchDetails1" />  <!-- Match Description -->
+      <ModelItem Name="MatchDetails2" />  <!-- Match DateTime -->
+      <ModelItem Name="MatchDetails3" />  <!-- Match Occurence -->
+      
+      <Choice Name="PivotModel" />
+    </Locals>
+
+    <!-- This is where the scrolling objects get hooked up to each     -->
+    <!-- other. Default rules are a good place to do this since Rules  -->
+    <!-- get run after the rest of the UI is created and ready to go.  -->
+    <Rules>
+      <!-- A blank status message means there is no error message to display so go ahead and render listings -->
+      <Condition Source="[ESPN3.StatusMessage]" ConditionOp="Equals" SourceValue="">
+        <Actions>
+          <!-- Dynamically load all pivot options -->
+          <Set Target="[PivotModel]" Value="[ESPN3.SportsChoices]" />
+          
+          <!-- Load leagues for the first sport -->
+          <Set Target="[GroupRepeater.Source]" Value="[ESPN3.Leagues]" />
+        </Actions>
+      </Condition>
+
+      <!-- Pivot -->
+      <!--
+            1. Get new league data and set repeater to it
+            2. Reset scroller
+            3. Set focus to pivot
+            4. Hide footer
+      -->
+      <Changed Source="[PivotModel.ChosenIndex]">
+        <Actions>
+          <Invoke Target="[ESPN3.GetLeagues]" index="[PivotModel.ChosenIndex]" ResultTarget="[GroupRepeater.Source]" />
+          <Invoke Target="[ScrollingData.Home]" />
+          <Invoke Target="[PivotControl.NavigateInto]" isDefault="true" />
+        </Actions>
+      </Changed>
+
+      <Condition Source="[IsPivotActive.Value]" SourceValue="true">
+        <Actions>
+          <Set Target="[FooterPanel.Visible]" Value="false" />
+          <Set Target="[LeagueScroller.Alpha]" Value="0.2" />
+        </Actions>
+      </Condition>
+
+      <Condition Source="[IsPivotActive.Value]" SourceValue="false">
+        <Actions>
+          <Set Target="[FooterPanel.Visible]" Value="true" />
+          <Set Target="[LeagueScroller.Alpha]" Value="1.0" />
+        </Actions>
+      </Condition>      
+
+      <!-- Accessibility -->
+      <Default Target="[Accessible.Name]"
+               Value="Homepage"/>
+      <Default Target="[Accessible.Role]"
+               Value="Pane"/>
+
+      <!-- Give ScrollingData to ScrollingHandler. -->
+      <Default Target="[ScrollingHandler.ScrollingData]"
+               Value="[ScrollingData]"/>
+
+      <!-- Give Repeater to ScrollingData. -->
+      <Default Target="[ScrollingData.Repeater]"
+               Value="[GroupRepeater]"/>
+    </Rules>
+
+    <Content>
+      <ColorFill Name="PrimaryContent" Content="Transparent" Layout="Form">
+        <Children>
+          <!-- Page Title Panel -->
+          <me:HeaderText Text="ESPN3 listings">
+            <LayoutInput>
+              <FormLayoutInput Right="Parent,1,-30" Top="Parent,0,20" />
+            </LayoutInput>
+          </me:HeaderText>
+
+          <!-- Header Controls Panel -->
+          <Panel Name="PivotControl">
+            <LayoutInput>
+              <FormLayoutInput Top="Parent,0,120" />
+            </LayoutInput>
+            <Children>
+              <me:Pivot Model="[ESPN3.SportsChoices]" PivotIndicator="[IsPivotActive]" />
+            </Children>
+          </Panel>
+
+          <Panel>
+            <Children>
+              <Panel Layout="Form"
+                     Margins="0,0,0,0">
+                <Children>               
+                  <Text Name="Statuser"
+                        Content="[ESPN3.StatusMessage]"
+                        Color="White"
+                        Font="Verdana,24"
+                        />
+                  <ColorFill Padding="200,30,200,30"
+                             Content="Transparent" 
+                             >
+                    <Children>
+
+                      <!-- The Scroller. It referrs to the ScrollingData too. -->
+                      <Scroller Name="LeagueScroller"
+                                MaximumSize="0,600"
+                                Orientation="Horizontal"
+                                ScrollingData="[ScrollingData]" 
+                                Navigation="PreferFocusOrder"
+                                Alpha="0.2"
+                                >
+                        <Children>
+                          <!-- The Repeater. A direct child of the Scroller. -->
+                          <Repeater Name="GroupRepeater">
+                            <Layout>
+                              <GridLayout Orientation="Horizontal"
+                                          AllowWrap="true"
+                                          Spacing="10,10"
+                                          Repeat="WhenTooBig" />
+                            </Layout>
+                            <Content>
+                              <!-- Repeating out the items. -->
+                              <me:GroupItem League="[RepeatedItem!ws:League]"
+                                            MyIndex="[RepeatedItemIndex]"
+                                            ParentLabel="[ParentModel]"
+                                            ParentLabel2="[ParentModel2]"
+                                            MatchDetails1="[MatchDetails1]"
+                                            MatchDetails2="[MatchDetails2]"
+                                            MatchDetails3="[MatchDetails3]"
+                                        />
+                            </Content>
+                          </Repeater>
+                        </Children>
+                      </Scroller>
+                    </Children>
+                  </ColorFill>
+                  <!-- Start Footer -->
+                  <Panel Name="FooterPanel" Layout="VerticalFlow" Visible="false">
+                    <LayoutInput>
+                      <FormLayoutInput Right="Parent,1,-20"
+                                       Bottom="Parent,1,-20"/>
+                    </LayoutInput>
+                    <Children>
+                      <me:Footer ParentModel="[ParentModel]" 
+                                 ParentModel2="[ParentModel2]"
+                                 MatchDetails1="[MatchDetails1]"
+                                 MatchDetails2="[MatchDetails2]"
+                                 MatchDetails3="[MatchDetails3]"
+                               />
+                    </Children>
+                  </Panel>                  
+                  <Panel Name="LogoHolder">
+                    <LayoutInput>
+                      <FormLayoutInput Right="Parent,1,-20"
+                                       Bottom="Parent,1,-75"/>
+                    </LayoutInput>                    
+                    <Layout>
+                      <FlowLayout Orientation="Horizontal" StripAlignment="Far" />
+                    </Layout>
+                    <Children>
+                      <Graphic Name="Logo" Content="resx://ESPN3WMC/ESPN3WMC.Resources/espn3_logo" />
+                    </Children>
+                  </Panel>
+                  <!-- End Footer -->
+                </Children>
+              </Panel>
+            </Children>
+          </Panel>
+        </Children>
+      </ColorFill>
+    </Content>
+  </UI>
+</Mcml>

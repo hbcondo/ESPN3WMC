@@ -1,0 +1,10 @@
+<Mcml xmlns="http://schemas.microsoft.com/2008/mcml"
+      xmlns:a="assembly://ESPN3WMC/ESPN3WMC"
+      >
+
+  <Aggregate Source="resx://ESPN3WMC/ESPN3WMC.Resources/Animations" />
+  <Aggregate Source="resx://ESPN3WMC/ESPN3WMC.Resources/Colors" />
+  <Aggregate Source="resx://ESPN3WMC/ESPN3WMC.Resources/Sounds" />
+  <Aggregate Source="resx://ESPN3WMC/ESPN3WMC.Resources/FontNames" />
+  
+</Mcml>

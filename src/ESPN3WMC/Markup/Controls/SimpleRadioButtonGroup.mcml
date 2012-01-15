@@ -1,0 +1,50 @@
+<Mcml xmlns="http://schemas.microsoft.com/2006/mcml"
+      xmlns:cor="assembly://MSCorLib/System" 
+      xmlns:a="assembly://ESPN3WMC/ESPN3WMC"
+      xmlns:me="Me">
+
+  <Aggregate Source="resx://ESPN3WMC/ESPN3WMC.Resources/Base" />
+  <Aggregate Source="resx://ESPN3WMC/ESPN3WMC.Resources/SimpleRadioButton" />
+
+  <UI Name="SimpleRadioButtonGroup">
+    
+    <Properties>
+    
+      <Choice Name="Model" Choice="$Required" />
+      
+    </Properties>
+
+    <Rules>
+      
+      <Binding Source="[Model.Chosen!cor:String]" Target="[Selection.Content]" />
+      <Binding Source="[Model.Options]" Target="[Repeater.Source]" />
+      
+    </Rules>
+
+    <Content>
+      
+      <Panel Name="RootPanel" Layout="VerticalFlow" MinimumSize="200,200">
+        <Children>
+          
+          <Text Name="Selection" Color="color://me:LightBlue" Font="font://me:Font" Margins="0,0,0,10" />
+          
+          <Repeater Name="Repeater" ContentName="RadioButton" >
+            <Layout>
+              <FlowLayout Orientation="Vertical" Spacing="5,0" ItemAlignment="Near" AllowWrap="true" />
+            </Layout>
+          </Repeater>
+          
+        </Children>
+      </Panel>
+      
+    </Content>
+
+    <Content Name="RadioButton">
+      <me:SimpleRadioButton Model="[Model]" Option="[RepeatedItem!cor:String]" />
+    </Content>
+    
+  </UI>
+
+  <Font Name="Font" FontName="global://me:RegularFontName" FontSize="20" />
+
+</Mcml>

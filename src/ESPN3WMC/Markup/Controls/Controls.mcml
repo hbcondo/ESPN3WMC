@@ -1,0 +1,17 @@
+<Mcml xmlns="http://schemas.microsoft.com/2006/mcml"
+      xmlns:cor="assembly://MSCorLib/System"
+      xmlns:a="assembly://ESPN3WMC/ESPN3WMC"
+      xmlns:me="Me"
+      >
+
+  <Aggregate Source="resx://ESPN3WMC/ESPN3WMC.Resources/HeaderButton" />
+  <Aggregate Source="resx://ESPN3WMC/ESPN3WMC.Resources/HeaderText" />
+  <Aggregate Source="resx://ESPN3WMC/ESPN3WMC.Resources/SimpleButton" />
+  <Aggregate Source="resx://ESPN3WMC/ESPN3WMC.Resources/SimpleCheckbox" />
+  <Aggregate Source="resx://ESPN3WMC/ESPN3WMC.Resources/SimpleEditbox" />
+  <Aggregate Source="resx://ESPN3WMC/ESPN3WMC.Resources/SimpleRadioButtonGroup" />
+  <Aggregate Source="resx://ESPN3WMC/ESPN3WMC.Resources/SimpleSpinner" />
+  <Aggregate Source="resx://ESPN3WMC/ESPN3WMC.Resources/TreeViewHost" />
+  <Aggregate Source="resx://ESPN3WMC/ESPN3WMC.Resources/Pivot" />
+  
+</Mcml>

@@ -1,0 +1,42 @@
+<Mcml xmlns="http://schemas.microsoft.com/2008/mcml"
+      xmlns:cor="assembly://MSCorLib/System"
+      xmlns:a="assembly://ESPN3WMC/ESPN3WMC">
+
+  <UI Name="Loading">
+
+    <Properties>
+      <Color Name="MyColor"
+             Color="White"/>
+    </Properties>
+
+    <Locals>
+      <a:ListingsLoader Name="ListingsLoader" />
+      <cor:String Name="MyString"
+                  String="Loading..."/>
+    </Locals>
+
+    <Rules>
+      <Rule>
+        <Conditions>
+          <Equality Source="[ListingsLoader.IsComplete]" Value="true" />
+        </Conditions>
+        <Actions>
+          <Navigate Source="@resx://ESPN3WMC/ESPN3WMC.Resources/Default" ESPN3="[ListingsLoader.GetListings]"/>
+        </Actions>
+      </Rule>
+      <Default Target="[MyText.Content]"
+               Value="[MyString]"/>
+    </Rules>
+
+    <Content>
+      <Panel Layout="Center">
+        <Children>
+          <Text Name="MyText"
+                Color="[MyColor]"
+                Font="Calibri, 24" FocusOrder="1" />
+        </Children>        
+      </Panel>
+    </Content>
+
+  </UI>
+</Mcml>

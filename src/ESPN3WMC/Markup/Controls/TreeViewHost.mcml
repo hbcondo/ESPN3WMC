@@ -1,0 +1,73 @@
+<Mcml xmlns="http://schemas.microsoft.com/2006/mcml"
+      xmlns:cor="assembly://MSCorLib/System"
+      xmlns:a="assembly://ESPN3WMC/ESPN3WMC"
+      xmlns:me="Me">
+
+  <Aggregate Source="resx://ESPN3WMC/ESPN3WMC.Resources/Base" />
+  <Aggregate Source="resx://ESPN3WMC/ESPN3WMC.Resources/TreeNodeItem" />
+
+  <UI Name="TreeViewHost">
+
+    <Properties>
+      
+      <a:TreeView Name="TreeView" a:TreeView="$Required" />
+      
+    </Properties>
+
+    <Locals>
+      <Command Name="FocusedNodeChanged" />
+    </Locals>
+
+    <Rules>
+      <Binding Target="[CurrentNodeLabel.Content]" Source="[TreeView.CheckedNode.ToString]" />
+      <Binding Target="[CurrentNodeLabel.Content]" Source="[FocusedNodeChanged.Description]" />
+    </Rules>
+
+    <Content>
+
+      <Panel Layout="VerticalFlow">
+
+        <Children>
+
+          <Graphic Content="image://me:ListboxNoFocus">
+            <Children>
+
+              <Scroller Orientation="Vertical" FadeSize="10" Padding="15,15,15,15">
+                <Children>
+
+                  <Repeater Layout="VerticalFlow" Source="[TreeView.ChildNodes]">
+
+                    <Animations>
+                      <Animation Animation="animation://me:ScrollerMoveItemSmooth" />
+                    </Animations>
+
+                    <Content>
+                      <me:TreeNodeItem TreeNode="[RepeatedItem!a:TreeNode]" Focused="[FocusedNodeChanged]" />
+                    </Content>
+
+                  </Repeater>
+
+                </Children>
+              </Scroller>
+
+            </Children>
+          </Graphic>
+
+          <Panel MinimumSize="561,200" MaximumSize="561,200">
+            <Children>
+
+              <Text Name="CurrentNodeLabel" Color="color://me:LightBlue" Font="font://me:Font" Margins="0,10,0,0" WordWrap="true" />
+
+            </Children>
+          </Panel>
+
+        </Children>
+      </Panel>
+
+    </Content>
+  </UI>
+
+  <Font Name="Font"             FontName="global://me:RegularFontName" FontSize="18" />
+  <Image Name="ListboxNoFocus"  Source="resx://ESPN3WMC/ESPN3WMC.Resources/ListboxNoFocus" />
+
+</Mcml>

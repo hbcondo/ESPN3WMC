@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://amarkota.com/webservices/espn3" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://amarkota.com/webservices/espn3" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://amarkota.com/webservices/espn3">
+      <s:element name="GetListingsForWMCV2">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="width" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="height" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetListingsForWMCV2Response">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetListingsForWMCV2Result" type="tns:ListingsResponse" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ListingsResponse">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Status" type="tns:ListingsStatus" />
+          <s:element minOccurs="0" maxOccurs="1" name="Message" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Sports" type="tns:ArrayOfSport" />
+        </s:sequence>
+      </s:complexType>
+      <s:simpleType name="ListingsStatus">
+        <s:restriction base="s:string">
+          <s:enumeration value="SUCCESS" />
+          <s:enumeration value="FAILURE" />
+        </s:restriction>
+      </s:simpleType>
+      <s:complexType name="ArrayOfSport">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Sport" nillable="true" type="tns:Sport" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="Sport">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="ID" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Picture" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Keyword" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Leagues" type="tns:ArrayOfLeague" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfLeague">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="League" nillable="true" type="tns:League" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="League">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="ID" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Picture" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Matches" type="tns:ArrayOfMatch" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfMatch">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Match" nillable="true" type="tns:Match" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="Match">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Occurrence" type="s:dateTime" />
+          <s:element minOccurs="1" maxOccurs="1" name="OccurrenceType" type="tns:ListingType" />
+          <s:element minOccurs="0" maxOccurs="1" name="League" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Category" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Description" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="VideoUrl" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:simpleType name="ListingType">
+        <s:restriction base="s:string">
+          <s:enumeration value="LIVE" />
+          <s:enumeration value="REPLAY" />
+          <s:enumeration value="UPCOMING" />
+          <s:enumeration value="NEXDEFREPLAY" />
+          <s:enumeration value="UNKNOWN" />
+        </s:restriction>
+      </s:simpleType>
+      <s:element name="UserCredentials" type="tns:UserCredentials" />
+      <s:complexType name="UserCredentials">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="AuthenticationKey" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Username" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+        </s:sequence>
+        <s:anyAttribute />
+      </s:complexType>
+      <s:element name="GetListingsForWMCV1A">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetListingsForWMCV1AResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetListingsForWMCV1AResult" type="tns:ListingsResponse" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetListingsForWMCV1">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetListingsForWMCV1Response">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetListingsForWMCV1Result" type="tns:ListingsResponse" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="GetListingsForWMCV2SoapIn">
+    <wsdl:part name="parameters" element="tns:GetListingsForWMCV2" />
+  </wsdl:message>
+  <wsdl:message name="GetListingsForWMCV2SoapOut">
+    <wsdl:part name="parameters" element="tns:GetListingsForWMCV2Response" />
+  </wsdl:message>
+  <wsdl:message name="GetListingsForWMCV2UserCredentials">
+    <wsdl:part name="UserCredentials" element="tns:UserCredentials" />
+  </wsdl:message>
+  <wsdl:message name="GetListingsForWMCV1ASoapIn">
+    <wsdl:part name="parameters" element="tns:GetListingsForWMCV1A" />
+  </wsdl:message>
+  <wsdl:message name="GetListingsForWMCV1ASoapOut">
+    <wsdl:part name="parameters" element="tns:GetListingsForWMCV1AResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetListingsForWMCV1SoapIn">
+    <wsdl:part name="parameters" element="tns:GetListingsForWMCV1" />
+  </wsdl:message>
+  <wsdl:message name="GetListingsForWMCV1SoapOut">
+    <wsdl:part name="parameters" element="tns:GetListingsForWMCV1Response" />
+  </wsdl:message>
+  <wsdl:portType name="Service">
+    <wsdl:operation name="GetListingsForWMCV2">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns a response meant for Windows Media Center with all espn3 sports and their matches grouped by league.</wsdl:documentation>
+      <wsdl:input message="tns:GetListingsForWMCV2SoapIn" />
+      <wsdl:output message="tns:GetListingsForWMCV2SoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetListingsForWMCV1A">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Obsolete; Notify Caller.</wsdl:documentation>
+      <wsdl:input message="tns:GetListingsForWMCV1ASoapIn" />
+      <wsdl:output message="tns:GetListingsForWMCV1ASoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetListingsForWMCV1">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Obsolete; Notify Caller.</wsdl:documentation>
+      <wsdl:input message="tns:GetListingsForWMCV1SoapIn" />
+      <wsdl:output message="tns:GetListingsForWMCV1SoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="Service" type="tns:Service">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GetListingsForWMCV2">
+      <soap:operation soapAction="http://amarkota.com/webservices/espn3/GetListingsForWMCV2" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:GetListingsForWMCV2UserCredentials" part="UserCredentials" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetListingsForWMCV1A">
+      <soap:operation soapAction="http://amarkota.com/webservices/espn3/GetListingsForWMCV1A" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetListingsForWMCV1">
+      <soap:operation soapAction="http://amarkota.com/webservices/espn3/GetListingsForWMCV1" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="Service1" type="tns:Service">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GetListingsForWMCV2">
+      <soap12:operation soapAction="http://amarkota.com/webservices/espn3/GetListingsForWMCV2" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:GetListingsForWMCV2UserCredentials" part="UserCredentials" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetListingsForWMCV1A">
+      <soap12:operation soapAction="http://amarkota.com/webservices/espn3/GetListingsForWMCV1A" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetListingsForWMCV1">
+      <soap12:operation soapAction="http://amarkota.com/webservices/espn3/GetListingsForWMCV1" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="Service">
+    <wsdl:port name="Service" binding="tns:Service">
+      <soap:address location="https://www.amarkota.com/webservices/espn3/service.asmx" />
+    </wsdl:port>
+    <wsdl:port name="Service1" binding="tns:Service1">
+      <soap12:address location="https://www.amarkota.com/webservices/espn3/service.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

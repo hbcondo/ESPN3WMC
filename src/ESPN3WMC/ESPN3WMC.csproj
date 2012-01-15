@@ -1,0 +1,281 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{96C6235F-72B0-4718-A1A2-042B9C274663}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ESPN3WMC</RootNamespace>
+    <AssemblyName>ESPN3WMC</AssemblyName>
+    <SignAssembly>true</SignAssembly>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>2.0</OldToolsVersion>
+    <UpgradeBackupLocation />
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <FullyQualifiedOutputPath>$(MSBuildProjectDirectory)\bin\Debug</FullyQualifiedOutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <FullyQualifiedOutputPath>$(MSBuildProjectDirectory)\bin\Release</FullyQualifiedOutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+  </PropertyGroup>
+  <PropertyGroup>
+    <UseVSHostingProcess>true</UseVSHostingProcess>
+    <StartWorkingDirectory>$(windir)\eHome</StartWorkingDirectory>
+    <StartArguments>-load:"resx://ESPN3WMC/ESPN3WMC.Resources/Default" -assemblyredirect:"$(FullyQualifiedOutputPath)" -markupredirect:"resx://ESPN3WMC/ESPN3WMC.Resources/,file://$(MSBuildProjectDirectory)\Markup\,.mcml"</StartArguments>
+    <StartAction>Program</StartAction>
+    <StartProgram>$(windir)\eHome\McmlPad.exe</StartProgram>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>key.pfx</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.MediaCenter" />
+    <Reference Include="Microsoft.MediaCenter.UI" />
+    <Reference Include="System" />
+    <Reference Include="System.Configuration.Install" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Code\Helper.cs" />
+    <Compile Include="Code\Homepage.cs" />
+    <Compile Include="Code\Launch.cs" />
+    <Compile Include="Code\ListingsLoader.cs" />
+    <Compile Include="Code\TreeView\DirectoryTreeNode.cs" />
+    <Compile Include="Code\TreeView\TreeNode.cs" />
+    <Compile Include="Code\TreeView\TreeNodeEventArgs.cs" />
+    <Compile Include="Code\TreeView\TreeView.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Web References\wsESPN3\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="DevInstall.cmd" />
+    <None Include="key.pfx" />
+    <None Include="Markup\Base\Animations.mcml" />
+    <None Include="Markup\Base\Base.mcml">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Markup\Base\Colors.mcml">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Markup\Base\FontNames.mcml" />
+    <None Include="Markup\Base\Images.mcml">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Markup\Base\Sounds.mcml">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Markup\Controls\Controls.mcml" />
+    <None Include="Markup\Controls\ExpandCollapseButton.mcml" />
+    <None Include="Markup\Controls\HeaderButton.mcml" />
+    <None Include="Markup\Controls\HeaderText.mcml" />
+    <None Include="Markup\Controls\Pivot.mcml" />
+    <None Include="Markup\Controls\PivotItem.mcml" />
+    <None Include="Markup\Controls\SimpleButton.mcml" />
+    <None Include="Markup\Controls\SimpleCheckbox.mcml" />
+    <None Include="Markup\Controls\SimpleEditbox.mcml" />
+    <None Include="Markup\Controls\SimpleRadioButton.mcml" />
+    <None Include="Markup\Controls\SimpleRadioButtonGroup.mcml" />
+    <None Include="Markup\Controls\SimpleSpinner.mcml" />
+    <None Include="Markup\Controls\TreeNodeItem.mcml" />
+    <None Include="Markup\Controls\TreeViewHost.mcml" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="Setup\Build.cmd" />
+    <None Include="Setup\License.rtf" />
+    <None Include="Setup\License.txt" />
+    <None Include="Setup\LicenseAccessible.txt" />
+    <None Include="Setup\Setup-en-us.wxl" />
+    <None Include="Setup\Setup.wxs">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Readme.htm" />
+    <None Include="Setup\Registration.xml">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Images\Application.png" />
+    <None Include="Web References\wsESPN3\ListingsResponse.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\wsESPN3\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Web References\wsESPN3\service.wsdl" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Images\Application.Inactive.png" />
+    <Content Include="Markup\Default.mcml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Markup\EventVideo.mcml" />
+    <Content Include="Markup\Footer.mcml" />
+    <Content Include="Markup\GroupItem.mcml" />
+    <Content Include="Markup\ListItem.mcml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Markup\Loading.mcml" />
+    <None Include="Resources\espn3-bg.jpg" />
+    <None Include="Resources\espn3-logo.png" />
+    <None Include="Resources\Select.wav" />
+    <None Include="Resources\PageTransition.wav" />
+    <None Include="Resources\MiniSelect.wav" />
+    <None Include="Resources\Focus.wav" />
+    <None Include="Resources\Error.wav" />
+    <None Include="Resources\SpinnerBluebarLargeNoFocus.png" />
+    <None Include="Resources\SpinnerBluebarLargeFocus.png" />
+    <None Include="Resources\SpinnerBluebarLargeDormant.png" />
+    <None Include="Resources\SpinnerArrowForwardNoFocus.png" />
+    <None Include="Resources\SpinnerArrowForwardFocusoverlay.png" />
+    <None Include="Resources\SpinnerArrowForwardFocus.png" />
+    <None Include="Resources\SpinnerArrowForwardDormant.png" />
+    <None Include="Resources\SpinnerArrowForwardDisabled.png" />
+    <None Include="Resources\SpinnerArrowBackNoFocus.png" />
+    <None Include="Resources\SpinnerArrowBackFocusoverlay.png" />
+    <None Include="Resources\SpinnerArrowBackFocus.png" />
+    <None Include="Resources\SpinnerArrowBackDormant.png" />
+    <None Include="Resources\SpinnerArrowBackDisabled.png" />
+    <None Include="Resources\PivotArrowRightNoFocus.png" />
+    <None Include="Resources\PivotArrowRight.png" />
+    <None Include="Resources\PivotArrowLeftNoFocus.png" />
+    <None Include="Resources\PivotArrowLeft.png" />
+    <None Include="Resources\OverlaysButtonNoFocus.png" />
+    <None Include="Resources\ListboxNoFocus.png" />
+    <None Include="Resources\FirstRunCheckBoxUncheckedPressed.png" />
+    <None Include="Resources\FirstRunCheckBoxUncheckedNoFocus.png" />
+    <None Include="Resources\FirstRunCheckBoxUncheckedFocus.png" />
+    <None Include="Resources\FirstRunCheckBoxUncheckedDisabled.png" />
+    <None Include="Resources\FirstRunCheckBoxCheckedPressed.png" />
+    <None Include="Resources\FirstRunCheckBoxCheckedNoFocus.png" />
+    <None Include="Resources\FirstRunCheckBoxCheckedFocus.png" />
+    <None Include="Resources\FirstRunCheckBoxCheckedDisabled.png" />
+    <None Include="Resources\FindEditboxNoFocus.png" />
+    <None Include="Resources\FindEditbox.png" />
+    <None Include="Resources\ButtonRightFocusOverlay.png" />
+    <None Include="Resources\ButtonRightFocus.png" />
+    <None Include="Resources\ButtonRadioButtonOutlineNoFocus.png" />
+    <None Include="Resources\ButtonRadioButtonOutlineFocus.png" />
+    <None Include="Resources\ButtonRadioButtonBulletNoFocus.png" />
+    <None Include="Resources\ButtonRadioButtonBulletFocus.png" />
+    <None Include="Resources\ButtonRadioButtonBullet.png" />
+    <None Include="Resources\ButtonPressedHighlight.png" />
+    <None Include="Resources\ButtonPressedAfterGlow.png" />
+    <None Include="Resources\ButtonNoFocus.png" />
+    <None Include="Resources\ButtonLeftFocusOverlay.png" />
+    <None Include="Resources\ButtonLeftFocus.png" />
+    <None Include="Resources\ButtonDormant.png" />
+    <None Include="Resources\ButtonDisabled.png" />
+    <None Include="Web References\wsESPN3\service.disco" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources.resx">
+      <SubType>Designer</SubType>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <WebReferences Include="Web References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WebReferenceUrl Include="https://www.amarkota.com/webservices/espn3/service.asmx">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\wsESPN3\</RelPath>
+      <UpdateFromURL>https://www.amarkota.com/webservices/espn3/service.asmx</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>ESPN3WMC_wsESPN3_Service</CachedSettingsPropName>
+    </WebReferenceUrl>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

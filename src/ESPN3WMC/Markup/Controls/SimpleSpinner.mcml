@@ -1,0 +1,103 @@
+<Mcml xmlns="http://schemas.microsoft.com/2006/mcml"
+      xmlns:cor="assembly://MSCorLib/System"
+      xmlns:a="assembly://ESPN3WMC/ESPN3WMC"
+      xmlns:me="Me">
+
+  <Aggregate Source="resx://ESPN3WMC/ESPN3WMC.Resources/Base" />
+  <Aggregate Source="resx://ESPN3WMC/ESPN3WMC.Resources/SimpleButton" />
+
+  <UI Name="SimpleSpinner">
+
+    <Properties>
+
+      <IValueRange Name="Model" IValueRange="$Required" />
+      <Color Name="BackgroundColor" Color="Transparent" />
+      <FormatTransformer Name="LabelTransformer" Format="{0}" />
+
+    </Properties>
+
+    <Locals>
+
+      <InvokeCommand Name="Previous" Target="[Model.PreviousValue]" />
+      <InvokeCommand Name="Next" Target="[Model.NextValue]" />
+      <cor:Boolean Name="HasFocus" />
+
+    </Locals>
+
+    <Rules>
+
+      <Binding Source="[Model.Value]" Target="[Value.Content]" Transformer="[LabelTransformer]" />
+      <Binding Source="[Model.HasNextValue]" Target="[Next.Available]"/>
+      <Binding Source="[Model.HasPreviousValue]" Target="[Previous.Available]"/>
+
+      <Condition Source="[Model.HasPreviousValue]" ConditionOp="Equals" SourceValue="false">
+        <Actions>
+          <Invoke Target="[btnNext.NavigateInto]" />
+        </Actions>
+      </Condition>
+
+      <Condition Source="[Model.HasNextValue]" ConditionOp="Equals" SourceValue="false">
+        <Actions>
+          <Invoke Target="[btnPrevious.NavigateInto]" />
+        </Actions>
+      </Condition>
+
+      <Condition Source="[Input.DeepKeyFocus]" SourceValue="true" Target="[HasFocus]" Value="[Input.DeepKeyFocus]" />
+      <Condition Source="[Input.DeepMouseFocus]" SourceValue="true" Target="[HasFocus]" Value="[Input.DeepMouseFocus]" />
+      <Condition Source="[HasFocus]" SourceValue="true" Target="[Background.Content]" Value="image://me:SpinnerBluebarLargeFocus" />
+
+    </Rules>
+
+    <Content>
+      <Panel>
+        <Layout>
+          <FlowLayout Orientation="Horizontal" />
+        </Layout>
+        <Children>
+
+          <!-- Current value -->
+          <Graphic Name="Background" Content="image://me:SpinnerBluebarLargeNoFocus" MinimumSize="425,51" MaximumSize="425,51" Padding="5,10,0,5">
+            <Children>
+              <Text Name="Value" Font="font://me:Font" Color="White" />
+            </Children>
+          </Graphic>
+
+          <!-- Previous button -->
+          <me:SimpleButton  Command="[Previous]"
+                            ImageFocus="image://me:SpinnerArrowBackFocus"
+                            ImageNoFocus="image://me:SpinnerArrowBackNoFocus"
+                            ImageDormant="image://me:SpinnerArrowBackDormant"
+                            Name="btnPrevious"
+                            Size="50,51"
+                            />
+
+          <!-- Next button -->
+          <me:SimpleButton  Command="[Next]"
+                            ImageFocus="image://me:SpinnerArrowForwardFocus"
+                            ImageNoFocus="image://me:SpinnerArrowForwardNoFocus"
+                            ImageDormant="image://me:SpinnerArrowForwardDormant"
+                            Name="btnNext"
+                            Size="50,51"
+                            />
+          
+        </Children>
+      </Panel>
+    </Content>
+  </UI>
+
+  <Font Name="Font"                               FontName="global://me:RegularFontName" FontSize="20" />
+  <Image Name="SpinnerArrowBackDisabled"          Source="resx://ESPN3WMC/ESPN3WMC.Resources/SpinnerArrowBackDisabled"/>
+  <Image Name="SpinnerArrowBackDormant"           Source="resx://ESPN3WMC/ESPN3WMC.Resources/SpinnerArrowBackDormant"/>
+  <Image Name="SpinnerArrowBackFocus"             Source="resx://ESPN3WMC/ESPN3WMC.Resources/SpinnerArrowBackFocus"/>
+  <Image Name="SpinnerArrowBackFocusoverlay"      Source="resx://ESPN3WMC/ESPN3WMC.Resources/SpinnerArrowBackFocusoverlay"/>
+  <Image Name="SpinnerArrowBackNoFocus"           Source="resx://ESPN3WMC/ESPN3WMC.Resources/SpinnerArrowBackNoFocus"/>
+  <Image Name="SpinnerArrowForwardDisabled"       Source="resx://ESPN3WMC/ESPN3WMC.Resources/SpinnerArrowForwardDisabled"/>
+  <Image Name="SpinnerArrowForwardDormant"        Source="resx://ESPN3WMC/ESPN3WMC.Resources/SpinnerArrowForwardDormant"/>
+  <Image Name="SpinnerArrowForwardFocus"          Source="resx://ESPN3WMC/ESPN3WMC.Resources/SpinnerArrowForwardFocus"/>
+  <Image Name="SpinnerArrowForwardFocusOverlay"   Source="resx://ESPN3WMC/ESPN3WMC.Resources/SpinnerArrowForwardFocusOverlay"/>
+  <Image Name="SpinnerArrowForwardNoFocus"        Source="resx://ESPN3WMC/ESPN3WMC.Resources/SpinnerArrowForwardNoFocus"/>
+  <Image Name="SpinnerBluebarLargeDormant"        Source="resx://ESPN3WMC/ESPN3WMC.Resources/SpinnerBluebarLargeDormant"/>
+  <Image Name="SpinnerBluebarLargeFocus"          Source="resx://ESPN3WMC/ESPN3WMC.Resources/SpinnerBluebarLargeFocus"/>
+  <Image Name="SpinnerBluebarLargeNoFocus"        Source="resx://ESPN3WMC/ESPN3WMC.Resources/SpinnerBluebarLargeNoFocus"/>
+
+</Mcml>

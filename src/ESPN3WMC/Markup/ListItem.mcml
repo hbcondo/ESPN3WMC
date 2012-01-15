@@ -1,0 +1,156 @@
+<Mcml xmlns="http://schemas.microsoft.com/2008/mcml"
+      xmlns:a="assembly://ESPN3WMC/ESPN3WMC"
+      xmlns:cor="assembly://MSCorLib/System"
+      xmlns:ws="assembly://ESPN3WMC/ESPN3WMC.wsESPN3"
+      xmlns:addin="assembly://Microsoft.MediaCenter/Microsoft.MediaCenter.Hosting">
+  <UI Name="ListItem">
+    <Properties>
+      <ws:Match Name="Match" />
+      <cor:String Name="League" String="$Required" />
+      <ModelItem Name="MatchDetails1" />
+      <ModelItem Name="MatchDetails2" />
+      <ModelItem Name="MatchDetails3" />
+      <Index Name="MyIndex" Index="$Required"/>
+      <cor:Int32 Name="IndexTotal" />
+      <ModelItem Name="ParentLabel" ModelItem="$Required"/>
+      <ModelItem Name="ParentLabel2" ModelItem="$Required"/>
+      <Size Name="Size" Size="900,55" />
+      <Font Name="Font" Font="Tahoma,24" />
+      <Color Name="Color" Color="White" />
+      <Image Name="ImageFocus" Image="resx://ESPN3WMC/ESPN3WMC.Resources/ButtonLeftFocus" />
+      <Image Name="ImageNoFocus" Image="resx://ESPN3WMC/ESPN3WMC.Resources/ButtonNoFocus" />
+      <Image Name="ImageDormant" Image="resx://ESPN3WMC/ESPN3WMC.Resources/ButtonDormant" />
+      <Image Name="ImageFocusOverlay" Image="resx://ESPN3WMC/ESPN3WMC.Resources/ButtonLeftFocusOverlay" />
+    </Properties>
+
+    <Locals>
+      <ClickHandler Name="Clicker"/>
+      <addin:AddInHost Name="AddInHost"/>
+      <a:Helper Name="Helper" />
+    </Locals>
+
+    <Rules>
+
+      <!-- Set Footer Item Data -->
+      <Condition Source="[Input.KeyFocus]" SourceValue="true">
+        <Conditions>
+          <Equality Source="[League]" Value="All Sports" ConditionOp="Equals" />
+        </Conditions>
+        <Actions>
+          <Set Target="[MatchDetails3.Description]" Value="[Match.Category]" />
+        </Actions>
+      </Condition>
+
+      <Condition Source="[Input.KeyFocus]" SourceValue="true">
+        <Conditions>
+          <Equality Source="[League]" Value="All Sports" ConditionOp="NotEquals" />
+        </Conditions>
+        <Actions>
+          <Set Target="[MatchDetails3.Description]" Value="[Match.OccurrenceType.ToString]" />
+        </Actions>
+      </Condition>
+
+      <Condition Source="[Input.KeyFocus]" SourceValue="true">
+        <Actions>
+          <Set Target="[imgButton.Content]" Value="[ImageFocus]"/>
+          <Set Target="[ParentLabel.Description]" Value="[MyIndex.Value.ToString]">
+            <Transformer>
+              <!--Add one to index value since it is zero-based-->
+              <MathTransformer AddInt="1"/>
+            </Transformer>
+          </Set>
+          <Set Target="[ParentLabel2.Description]" Value="[IndexTotal.ToString]" />
+          <Set Target="[MatchDetails1.Description]" Value="[Match.Description]" />
+          <Set Target="[MatchDetails2.Description]" Value="[Match.Occurrence]">
+            <Transformer>
+              <DateTimeTransformer Format="LongDate,ShortTime"/>
+            </Transformer>
+          </Set>
+        </Actions>
+      </Condition>
+
+      <!-- Perform action when list item is clicked -->
+      <Changed Source="[Clicker.Invoked]">
+        <Actions>
+          <!-- ESPN3 web page is not rendering in WMC so open up web page in browser outside of WMC -->
+          <Invoke Target="[AddInHost.MediaCenterEnvironment.NavigateToPage]"
+                  pageId="ExtensibilityURL"
+                  pageParameters="[Match.VideoUrl]"/>
+          <!--Invoke Target="[Helper.OpenWebpage]" url="[Match.VideoUrl]" /-->
+        </Actions>
+      </Changed>
+
+      <!-- Set List Item Data -->
+      <Condition Source="[Match.OccurrenceType]" ConditionOp="Equals" SourceValue="LIVE">
+        <Actions>
+          <Set Target="[MatchTime.Content]" Value="LIVE" />
+        </Actions>
+      </Condition>
+      <Condition Source="[Match.OccurrenceType]" ConditionOp="Equals" SourceValue="REPLAY">
+        <Actions>
+          <Set Target="[MatchTime.Content]" Value="[Match.Occurrence]">
+            <Transformer>
+              <DateTimeTransformer Format="ShortTime"/>
+            </Transformer>
+          </Set>
+        </Actions>
+      </Condition>
+      <Binding Source="[Match.Name]" Target="[MatchName.Content]" />
+      <Binding Source="[Match.Occurrence]" Target="[MatchDate.Content]">
+        <Transformer>
+          <DateTimeTransformer Format="ShortDate,NoYear"/>
+        </Transformer>
+      </Binding>
+
+    </Rules>
+
+    <Content>
+      <Graphic Name="imgButton"
+         Content="[ImageNoFocus]"
+         Padding="12,7,12,7"
+         MouseInteractive="true"
+         MinimumSize="[Size]"
+         MaximumSize="[Size]"
+         SizingPolicy="SizeToContent"
+         HorizontalAlignment="Fill"
+         VerticalAlignment="Fill"
+         Scale="1,1,0" Margins="0,1,0,1"
+                   >
+        <Children>
+          <ColorFill Content="Transparent" Layout="HorizontalFlow">
+            <Children>
+              <Text Name="MatchTime"
+                    Color="[Color]"
+                    Font="[Font]"
+                    MinimumSize="150,10"
+                    MaximumSize="150,55"
+                    HorizontalAlignment="Far"
+                    Margins="0,0,3,0"
+                    Padding="0,0,10,0"
+                    />
+              <Text Name="MatchName"
+                    Content="[Match.Description]"
+                    Color="[Color]"
+                    Font="[Font]"
+                    MinimumSize="580,10"
+                    MaximumSize="580,55"
+                    HorizontalAlignment="Near"
+                    Margins="0,0,0,0"
+                    Padding="10,0,0,0"
+                    />
+              <Text Name="MatchDate"
+                    Color="[Color]"
+                    Font="[Font]"
+                    MinimumSize="130,10"
+                    MaximumSize="130,55"
+                    HorizontalAlignment="Far"
+                    Margins="3,0,0,0"
+                    Padding="5,0,0,0"
+                    />
+            </Children>
+          </ColorFill>
+        </Children>
+      </Graphic>
+    </Content>
+  </UI>
+</Mcml>

@@ -1,0 +1,104 @@
+<Mcml xmlns="http://schemas.microsoft.com/2006/mcml"
+      xmlns:cor="assembly://MSCorLib/System"
+      xmlns:a="assembly://ESPN3WMC/ESPN3WMC"
+      xmlns:me="Me">
+
+  <Aggregate Source="resx://ESPN3WMC/ESPN3WMC.Resources/Base" />
+  <Aggregate Source="resx://ESPN3WMC/ESPN3WMC.Resources/SimpleCheckbox" />
+  <Aggregate Source="resx://ESPN3WMC/ESPN3WMC.Resources/ExpandCollapseButton" />
+
+  <UI Name="TreeNodeItem">
+
+    <Properties>
+      
+      <a:TreeNode Name="TreeNode" TreeNode="$Required" />
+      <Command Name="Focused" />
+      
+    </Properties>
+
+    <Locals>
+      
+      <ClickHandler Name="Clicker" />
+      <Command Name="cmdExpandCollapse" />
+      
+    </Locals>
+
+    <Rules>
+
+      <Binding Source="[TreeNode.ChildNodes]" Target="[ChildNodes.Source]" />
+
+      <Changed Source="[cmdExpandCollapse.Invoked]">
+        <Conditions>
+          <Equality Source="[ChildNodes.Visible]" Value="false" />
+        </Conditions>
+        <Actions>
+          <Invoke Target="[TreeNode.GetChildNodes]" />
+        </Actions>
+      </Changed>
+
+      <Changed Source="[cmdExpandCollapse.Invoked]">
+        <Actions>
+          <Set Target="[ChildNodes.Visible]" Value="[ChildNodes.Visible]">
+            <Transformer>
+              <BooleanTransformer Inverse="true" />
+            </Transformer>
+          </Set>
+        </Actions>
+      </Changed>
+
+      <Rule>
+        <Conditions>
+          <Equality Source="[TreeNode.HasChildNodes]" ConditionOp="Equals" Value="false" />
+        </Conditions>
+        <Actions>
+          <Set Target="[Button.Visible]" Value="false" />
+          <Set Target="[Label.Margins]" Value="50,7,0,0" />
+        </Actions>
+      </Rule>
+
+      <Condition Source="[Input.DeepKeyFocus]" SourceValue="true">
+        <Actions>
+          <Set Target="[Focused.Description]" Value="[TreeNode.ToString]" />
+          <Invoke Target="[Focused.Invoke]" />
+        </Actions>
+      </Condition>
+
+    </Rules>
+
+    <Content>
+
+      <Panel Layout="VerticalFlow">
+        <Children>
+
+          <Panel Layout="HorizontalFlow">
+            <Children>
+
+              <me:SimpleCheckbox Name="Checked" Checked="[TreeNode.Checked]" Margins="0,7,4,0" />
+
+              <Panel Layout="HorizontalFlow" Margins="[TreeNode.LevelMargin]">
+                <Children>
+
+                  <me:ExpandCollapseButton Name="Button" Command="[cmdExpandCollapse]" />
+                  <Text Name="Label" Content="[TreeNode.Title]" Color="White" Font="font://me:Font" Margins="0,7,0,0" />
+
+                </Children>
+              </Panel>
+
+            </Children>
+          </Panel>
+
+          <Repeater Name="ChildNodes" Layout="VerticalFlow" Visible="false">
+            <Content>
+              <me:TreeNodeItem TreeNode="[RepeatedItem!a:TreeNode]" Focused="[Focused]" />
+            </Content>
+          </Repeater>
+
+        </Children>
+      </Panel>
+
+    </Content>
+  </UI>
+
+  <Font Name="Font" FontName="global://me:RegularFontName" FontSize="16" />
+
+</Mcml>

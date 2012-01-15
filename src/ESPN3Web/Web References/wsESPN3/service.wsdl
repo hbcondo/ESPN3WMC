@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://amarkota.com/webservices/espn3" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://amarkota.com/webservices/espn3" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://amarkota.com/webservices/espn3">
+      <s:element name="GetListings">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetListingsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetListingsResult" type="tns:ListingsResponse" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ListingsResponse">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Status" type="tns:ListingsStatus" />
+          <s:element minOccurs="0" maxOccurs="1" name="Message" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Sports" type="tns:ArrayOfSport" />
+        </s:sequence>
+      </s:complexType>
+      <s:simpleType name="ListingsStatus">
+        <s:restriction base="s:string">
+          <s:enumeration value="SUCCESS" />
+          <s:enumeration value="FAILURE" />
+        </s:restriction>
+      </s:simpleType>
+      <s:complexType name="ArrayOfSport">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Sport" nillable="true" type="tns:Sport" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="Sport">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="ID" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Picture" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Keyword" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Leagues" type="tns:ArrayOfLeague" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfLeague">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="League" nillable="true" type="tns:League" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="League">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="ID" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Picture" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Matches" type="tns:ArrayOfMatch" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfMatch">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Match" nillable="true" type="tns:Match" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="Match">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Occurrence" type="s:dateTime" />
+          <s:element minOccurs="1" maxOccurs="1" name="OccurrenceType" type="tns:ListingType" />
+          <s:element minOccurs="0" maxOccurs="1" name="League" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Category" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Description" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="VideoUrl" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:simpleType name="ListingType">
+        <s:restriction base="s:string">
+          <s:enumeration value="LIVE" />
+          <s:enumeration value="REPLAY" />
+          <s:enumeration value="UPCOMING" />
+          <s:enumeration value="UNKNOWN" />
+        </s:restriction>
+      </s:simpleType>
+      <s:element name="UserCredentials" type="tns:UserCredentials" />
+      <s:complexType name="UserCredentials">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="AuthenticationKey" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Username" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+        </s:sequence>
+        <s:anyAttribute />
+      </s:complexType>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="GetListingsSoapIn">
+    <wsdl:part name="parameters" element="tns:GetListings" />
+  </wsdl:message>
+  <wsdl:message name="GetListingsSoapOut">
+    <wsdl:part name="parameters" element="tns:GetListingsResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetListingsUserCredentials">
+    <wsdl:part name="UserCredentials" element="tns:UserCredentials" />
+  </wsdl:message>
+  <wsdl:portType name="Service">
+    <wsdl:operation name="GetListings">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns a response with all espn3 sports and their match listings</wsdl:documentation>
+      <wsdl:input message="tns:GetListingsSoapIn" />
+      <wsdl:output message="tns:GetListingsSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="Service" type="tns:Service">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GetListings">
+      <soap:operation soapAction="http://amarkota.com/webservices/espn3/GetListings" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:GetListingsUserCredentials" part="UserCredentials" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="Service1" type="tns:Service">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GetListings">
+      <soap12:operation soapAction="http://amarkota.com/webservices/espn3/GetListings" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:GetListingsUserCredentials" part="UserCredentials" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="Service">
+    <wsdl:port name="Service" binding="tns:Service">
+      <soap:address location="https://localhost/espn3/service.asmx" />
+    </wsdl:port>
+    <wsdl:port name="Service1" binding="tns:Service1">
+      <soap12:address location="https://localhost/espn3/service.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
