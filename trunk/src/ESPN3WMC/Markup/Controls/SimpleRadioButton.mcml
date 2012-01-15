@@ -1,0 +1,97 @@
+<Mcml xmlns="http://schemas.microsoft.com/2006/mcml"
+      xmlns:cor="assembly://MSCorLib/System" 
+      xmlns:a="assembly://ESPN3WMC/ESPN3WMC"
+      xmlns:me="Me">
+
+  <Aggregate Source="resx://ESPN3WMC/ESPN3WMC.Resources/Base" />
+  
+  <UI Name="SimpleRadioButton">
+
+    <Properties>
+      
+      <Choice Name="Model" Choice="$Required"/>
+      <cor:String Name="Option" String="$Required"/>
+      <Size Name="BoxSize" Size="50,50"/>
+      
+    </Properties>
+
+    <Locals>
+      
+      <!-- React to "click" input. -->
+      <ClickHandler Name="Clicker"/>
+      
+    </Locals>
+
+    <Rules>
+      
+      <Binding Source="[Option]" Target="[Label.Content]"/>
+      
+      <!-- The radio button has been clicked - update the model.            -->
+      <Changed Source="[Clicker.Invoked]">
+        <Actions>
+          <Set Target="[Model.Chosen]" Value="[Option]"/>
+        </Actions>
+      </Changed>
+
+      <!-- Highlighted = no; Checked = yes-->
+      <Rule>
+        <Conditions>
+          <Equality Source="[Input.KeyFocus]" ConditionOp="Equals" Value="false"/>
+          <Equality Source="[Model.Chosen]" ConditionOp="Equals" Value="[Option]"/>
+        </Conditions>
+        <Actions>
+          <Set Target="[Box.Content]" Value="image://me:ButtonRadioButtonBulletNoFocus"/>
+        </Actions>
+      </Rule>
+      
+      <!-- Highlighted = yes; Checked = yes-->
+      <Rule>
+        <Conditions>
+          <Equality Source="[Input.KeyFocus]" ConditionOp="Equals" Value="true"/>
+          <Equality Source="[Model.Chosen]" ConditionOp="Equals" Value="[Option]"/>
+        </Conditions>
+        <Actions>
+          <Set Target="[Box.Content]" Value="image://me:ButtonRadioButtonBulletFocus"/>
+        </Actions>
+      </Rule>
+      
+      <!-- Highlighted = no; Checked = no-->
+      <Rule>
+        <Conditions>
+          <Equality Source="[Input.KeyFocus]" ConditionOp="Equals" Value="true"/>
+          <Equality Source="[Model.Chosen]" ConditionOp="NotEquals" Value="[Option]"/>
+        </Conditions>
+        <Actions>
+          <Set Target="[Box.Content]" Value="image://me:ButtonRadioButtonOutlineFocus"/>
+        </Actions>
+      </Rule>
+      
+    </Rules>
+
+    <Content>
+      
+      <Panel>
+        
+        <Layout>
+          <FlowLayout Orientation="Horizontal" Spacing="5,5" ItemAlignment="Center"/>
+        </Layout>
+        
+        <Children>
+          
+          <Graphic Name="Box" Content="image://me:ButtonRadioButtonOutlineNoFocus" />
+          <Text Name="Label" Color="White" Font="font://me:Font" />
+          
+        </Children>
+      </Panel>
+      
+    </Content>
+  </UI>
+
+  <Font Name="Font"                               FontName="global://me:RegularFontName" FontSize="22" />
+  <Image Name="ButtonRadioButtonBullet"           Source="resx://ESPN3WMC/ESPN3WMC.Resources/ButtonRadioButtonBullet"/>
+  <Image Name="ButtonRadioButtonBulletFocus"      Source="resx://ESPN3WMC/ESPN3WMC.Resources/ButtonRadioButtonBulletFocus"/>
+  <Image Name="ButtonRadioButtonBulletNoFocus"    Source="resx://ESPN3WMC/ESPN3WMC.Resources/ButtonRadioButtonBulletNoFocus"/>
+  <Image Name="ButtonRadioButtonOutlineFocus"     Source="resx://ESPN3WMC/ESPN3WMC.Resources/ButtonRadioButtonOutlineFocus"/>
+  <Image Name="ButtonRadioButtonOutlineNoFocus"   Source="resx://ESPN3WMC/ESPN3WMC.Resources/ButtonRadioButtonOutlineNoFocus"/>
+
+</Mcml>

@@ -1,0 +1,10 @@
+<Mcml xmlns="http://schemas.microsoft.com/2008/mcml"
+      >
+
+  <Sound Name="Select"          Source="resx://ESPN3WMC/ESPN3WMC.Resources/Select" />
+  <Sound Name="Miniselect"      Source="resx://ESPN3WMC/ESPN3WMC.Resources/Miniselect" />
+  <Sound Name="Focus"           Source="resx://ESPN3WMC/ESPN3WMC.Resources/Focus" />
+  <Sound Name="Error"           Source="resx://ESPN3WMC/ESPN3WMC.Resources/Error" />
+  <Sound Name="PageTransition"  Source="resx://ESPN3WMC/ESPN3WMC.Resources/PageTransition" />
+  
+</Mcml>

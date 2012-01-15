@@ -1,0 +1,68 @@
+<Mcml xmlns="http://schemas.microsoft.com/2006/mcml"
+      xmlns:cor="assembly://MSCorLib/System"
+      xmlns:a="assembly://ESPN3WMC/ESPN3WMC"
+      xmlns:me="Me">
+
+  <Aggregate Source="resx://ESPN3WMC/ESPN3WMC.Resources/Base" />
+  <Aggregate Source="resx://ESPN3WMC/ESPN3WMC.Resources/SimpleButton" />
+
+
+  <UI Name="ExpandCollapseButton">
+
+    <Properties>
+      <Command Name="Command" Command="$Required" />
+    </Properties>
+
+    <Locals>
+      <Size Name="Size" Size="50,51" />
+      <BooleanTransformer Name="BooleanInversionTransformer" Inverse="true" />
+    </Locals>
+
+    <Rules>
+
+      <Binding Source="[Forward.Visible]" Target="[Back.Visible]" Transformer="[BooleanInversionTransformer]" />
+
+      <Changed Source="[Command.Invoked]">
+        <Actions>
+          <Set Target="[Forward.Visible]" Value="[Forward.Visible]" Transformer="[BooleanInversionTransformer]" InvokePolicy="Synchronous" />
+          <Invoke Target="[Host.NavigateInto]" />
+        </Actions>
+      </Changed>
+
+    </Rules>
+
+    <Content>
+
+      <Panel Name="Host">
+        <Children>
+
+          <me:SimpleButton Name="Forward"
+                           Command="[Command]"
+                           Size="[Size]"
+                           ImageFocus="image://me:SpinnerArrowForwardFocus"
+                           ImageNoFocus="image://me:SpinnerArrowForwardNoFocus"
+                           ImageDormant="image://me:SpinnerArrowForwardDormant"
+                           />
+
+          <me:SimpleButton Name="Back"
+                           Command="[Command]"
+                           Size="[Size]"
+                           ImageFocus="image://me:SpinnerArrowBackFocus"
+                           ImageNoFocus="image://me:SpinnerArrowBackNoFocus"
+                           ImageDormant="image://me:SpinnerArrowBackDormant"
+                           Visible="false"
+                           />
+          
+        </Children>
+      </Panel>
+    </Content>
+  </UI>
+
+  <Image Name="SpinnerArrowBackDormant"           Source="resx://ESPN3WMC/ESPN3WMC.Resources/SpinnerArrowBackDormant"/>
+  <Image Name="SpinnerArrowBackFocus"             Source="resx://ESPN3WMC/ESPN3WMC.Resources/SpinnerArrowBackFocus"/>
+  <Image Name="SpinnerArrowBackNoFocus"           Source="resx://ESPN3WMC/ESPN3WMC.Resources/SpinnerArrowBackNoFocus"/>
+  <Image Name="SpinnerArrowForwardDormant"        Source="resx://ESPN3WMC/ESPN3WMC.Resources/SpinnerArrowForwardDormant"/>
+  <Image Name="SpinnerArrowForwardFocus"          Source="resx://ESPN3WMC/ESPN3WMC.Resources/SpinnerArrowForwardFocus"/>
+  <Image Name="SpinnerArrowForwardNoFocus"        Source="resx://ESPN3WMC/ESPN3WMC.Resources/SpinnerArrowForwardNoFocus"/>
+
+</Mcml>

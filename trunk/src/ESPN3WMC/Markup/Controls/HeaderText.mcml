@@ -1,0 +1,31 @@
+<Mcml xmlns="http://schemas.microsoft.com/2006/mcml"
+      xmlns:cor="assembly://MSCorLib/System"
+      xmlns:a="assembly://ESPN3WMC/ESPN3WMC"
+      xmlns:me="Me">
+
+  <Aggregate Source="resx://ESPN3WMC/ESPN3WMC.Resources/FontNames" />
+
+  <UI Name="HeaderText">
+    
+    <Properties>
+    
+      <cor:String Name="Text" cor:String="$Required"/>
+    
+    </Properties>
+    
+    <Content>
+      
+      <Clip FadeSize="25" MaximumSize="500,70" NearOffset="-40" Orientation="Vertical">
+        <Children>
+          
+          <Text Content="[Text]" Color="White" Font="font://me:Font" Alpha="0.65" CenterPointPercent="1,0,1" />
+          
+        </Children>
+      </Clip>
+      
+    </Content>
+  </UI>
+
+  <Font Name="Font" FontName="global://me:LightFontName" FontSize="40" />
+
+</Mcml>

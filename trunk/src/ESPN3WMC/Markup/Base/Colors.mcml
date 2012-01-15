@@ -1,0 +1,8 @@
+<Mcml xmlns="http://schemas.microsoft.com/2008/mcml"
+      >
+
+  <Color Name="LightBlue"   Color="255, 151, 217, 255" />
+  <Color Name="MediumBlue"  Color="255,  84, 201, 247" />
+  <Color Name="Black"       Color="255,  16,  16, 16" />
+
+</Mcml>

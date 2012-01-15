@@ -1,0 +1,9 @@
+<Mcml xmlns="http://schemas.microsoft.com/2008/mcml"
+      xmlns:cor="assembly://MSCorLib/System"
+      >
+
+  <cor:String Name="RegularFontName"  String="Segoe Media Center" />
+  <cor:String Name="LightFontName"    String="Segoe Media Center Light" />
+  <cor:String Name="BoldFontName"     String="Segoe Media Center Semibold" />
+  
+</Mcml>

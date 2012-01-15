@@ -1,0 +1,30 @@
+<Mcml xmlns="http://schemas.microsoft.com/2008/mcml"
+      xmlns:cor="assembly://MSCorlib/System"
+      xmlns:addin="assembly://Microsoft.MediaCenter/Microsoft.MediaCenter.Hosting" >
+
+  <UI Name="VideoPlayback">
+
+    <Properties>
+      <cor:String Name="VideoPath" String="http://www.amarkota.com/amarkota.swf"/>
+    </Properties>
+
+    <Locals>
+      <addin:AddInHost Name="AddInHost"/>
+    </Locals>
+
+    <Rules>
+      <Rule>
+        <Actions>
+          <Invoke Target="[AddInHost.MediaCenterEnvironment.PlayMedia]"
+                  mediaType="Video" media="[VideoPath]" addToQueue="false"/>
+          <!--Invoke Target="[AddInHost.MediaCenterEnvironment.MediaExperience.GoToFullScreen]"/-->
+        </Actions>
+      </Rule>
+    </Rules>
+
+    <Content>
+      <Video MinimumSize="400,300" />
+    </Content>
+  </UI>
+
+</Mcml>

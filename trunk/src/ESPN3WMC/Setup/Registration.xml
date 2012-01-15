@@ -1,0 +1,12 @@
+﻿<application title="ESPN3WMC" id="{60cb49d1-9489-4eaa-8350-46dd04788fa3}">
+	<entrypoint id="{5ae38c73-e1cc-4589-98a3-37ffd49e6b26}"
+				addin="ESPN3WMC.MyAddIn, ESPN3WMC,Culture=Neutral,Version=1.0.0.0,PublicKeyToken=d93c8a009cc7f0e6"
+				title="espn3"
+				description="Watch ESPN's full live streaming sporting events"
+				imageUrl=".\Application.png"
+				UiFlags="HideTransportToolbar"
+        inactiveImageURL=".\Application.Inactive.png">
+		<category category="Sports"/>
+    <category category="More Programs"/>
+	</entrypoint>
+</application>

@@ -1,0 +1,76 @@
+<Mcml xmlns="http://schemas.microsoft.com/2006/mcml"
+      xmlns:cor="assembly://MSCorLib/System"
+      xmlns:a="assembly://ESPN3WMC/ESPN3WMC"
+      xmlns:me="Me">
+
+  <Aggregate Source="resx://ESPN3WMC/ESPN3WMC.Resources/Base" />
+
+  <UI Name="SimpleEditbox">
+
+    <Properties>
+
+      <EditableText Name="EditableText" EditableText="$Required" />
+      <cor:Boolean Name="PasswordMasked" Boolean="false"/>
+      <Size Name="Size" Size="250, 51" />
+
+    </Properties>
+
+    <Locals>
+
+      <TypingHandler Name="TypingHandler" EditableText="[EditableText]" TypingPolicy="TripleTap" HandlerStage="Bubbled" />
+      <AnchorLayoutInput Name="OvertypeAnchorLayoutInput" Left="Label,0" Right="Label,1" Top="Label,0" Bottom="Label,1" />
+
+    </Locals>
+
+    <Rules>
+
+      <Binding Source="[TypingHandler.DisplayValue]" Target="[Label.Content]"/>
+      <Binding Source="[PasswordMasked]" Target="[TypingHandler.PasswordMasked]"/>
+      <Default Target="[Input.KeyInteractive]" Value="true" />
+
+      <Condition Source="[EditableText.Overtype]" SourceValue="true">
+        <Actions>
+          <Set Target="[Overtype.Visible]" Value="true"/>
+          <Set Target="[Caret.Visible]" Value="false"/>
+        </Actions>
+      </Condition>
+      <Condition Source="[Input.KeyFocus]" SourceValue="true">
+        <Actions>
+          <Set Target="[Background.Content]" Value="image://me:FindEditbox" />
+          <Set Target="[Caret.Visible]" Value="true"/>
+        </Actions>
+      </Condition>
+
+    </Rules>
+
+    <Content>
+
+      <Graphic Name="Background" Content="image://me:FindEditboxNoFocus" MouseInteractive="true" Padding="5,5,5,5" Layout="Anchor" MinimumSize="[Size]" MaximumSize="[Size]">
+        <Children>
+
+          <!-- Current value. -->
+          <Text Name="Label" Color="Black" Font="font://me:Font" HorizontalAlignment="Far" Margins="0,0,10,0" MinimumSize="0,30" />
+
+          <!-- Caret -->
+          <ColorFill Name="Caret" Content="Black" Visible="false" MinimumSize="12,4">
+            <LayoutInput>
+              <AnchorLayoutInput Left="Label,1,-10" Top="Label,0" Bottom="Label,1" Vertical="Far" />
+            </LayoutInput>
+            <Animations>
+              <Animation Animation="animation://me:EditboxCaretBlink" />
+            </Animations>
+          </ColorFill>
+
+          <!-- Overtype fill. -->
+          <ColorFill Name="Overtype" Content="Black" LayoutInput="[OvertypeAnchorLayoutInput]" Visible="false" />
+
+        </Children>
+      </Graphic>
+    </Content>
+  </UI>
+
+  <Font Name="Font"                 FontName="global://me:RegularFontName" FontSize="20" />
+  <Image Name="FindEditbox"         Source="resx://ESPN3WMC/ESPN3WMC.Resources/FindEditbox"/>
+  <Image Name="FindEditboxNoFocus"  Source="resx://ESPN3WMC/ESPN3WMC.Resources/FindEditboxNoFocus"/>
+
+</Mcml>
