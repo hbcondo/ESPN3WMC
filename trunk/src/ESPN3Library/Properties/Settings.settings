@@ -12,7 +12,7 @@
       <Value Profile="(Default)">/index/_/sport/</Value>
     </Setting>
     <Setting Name="BaseDataUrl" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">http://espn.go.com/watchespn/feeds/startup?action={0}&amp;rand={1}</Value>
+      <Value Profile="(Default)">http://espn.go.com/watchespn/feeds/startup?action={0}&amp;channel=espn3&amp;rand={1}</Value>
     </Setting>
   </Settings>
 </SettingsFile>
