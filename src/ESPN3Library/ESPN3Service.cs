@@ -65,56 +65,6 @@ namespace ESPN3Library
 
         #region Public Methods
 
-        public string GetVideoPageHTML()
-        {
-            HtmlWeb doc = new HtmlWeb();
-            doc.UserAgent = "Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 6.1; WOW64; Trident/5.0; SLCC2; .NET CLR 2.0.50727; .NET CLR 3.5.30729; .NET CLR 3.0.30729; Media Center PC 6.0; MediaCenter 6.1.7601.17514)";
-            HtmlDocument rawData = doc.Load("http://espn.go.com/espn3/player?id=20315");
-            return rawData.DocumentNode.InnerHtml;
-        }
-
-        /// <summary>
-        /// Returns all the listings for a particular sport
-        /// </summary>
-        /// <param name="sport">Sport to get listings for. If empty, defaults to all sports</param>
-        /// <returns>Listings</returns>
-        public List<Match> GetListings(string sport)
-        {
-            string dataUrl = baseUrl;
-            
-            #if (DEBUG)
-            // specify sport url value if sport is specified 
-            if (!string.IsNullOrEmpty(sport))
-                dataUrl = string.Concat(baseUrl, baseUrlAddition, sport);
-            #endif
-
-            HtmlWeb doc = new HtmlWeb();
-            HtmlNodeCollection rawData = doc.Load(dataUrl).DocumentNode.SelectNodes("//div[@class='container listing']");
-
-            if (rawData != null)
-            {
-                for (int i = 0; i < rawData.Count; i++)
-                {
-                    HtmlDocument rawListings = new HtmlDocument();
-                    rawListings.LoadHtml(rawData[i].InnerHtml);
-
-                    if (rawListings.DocumentNode.ChildNodes.Count > 1)  // if equal to 1 or less, then there are no matches
-                    {
-                        _listings.Sport = sport;
-
-                        switch (i)
-                        {
-                            case 0: SetListingsContainer(rawListings, ListingType.LIVE); break;
-                            //case 1: SetListingsContainer(rawListings, ListingType.UPCOMING); break;
-                            case 2: SetListingsContainer(rawListings, ListingType.REPLAY); break;
-                        }
-                    }
-                }
-            }
-
-            return _matches;
-        }
-
         /// <summary>
         /// Returns a collection of all available sports and their leagues
         /// </summary>
@@ -124,6 +74,12 @@ namespace ESPN3Library
             return GetSports(_screenResolutionWidth, _screenResolutionHeight);
         }
 
+		/// <summary>
+		/// Returns a collection of all available sports and their leagues
+		/// </summary>
+		/// <param name="screenWidth">Width of the screen.</param>
+		/// <param name="screenHeight">Height of the screen.</param>
+		/// <returns></returns>
         public List<Sport> GetSports(int screenWidth, int screenHeight)
         {
             // set resolution widths
@@ -134,6 +90,7 @@ namespace ESPN3Library
             List<Match> listings = GetESPN3Events(); //GetListings(string.Empty);
 
             #region Live Matches
+
             // add new category containing all live matches (if there are any)
             IEnumerable<Match> liveMatches = (from m in listings
                                               where m.OccurrenceType == ListingType.LIVE
@@ -147,6 +104,7 @@ namespace ESPN3Library
                 sport.Leagues.Add(league);
                 sportsCollection.Add(sport);
             }
+
             #endregion
 
             // get all sports
@@ -184,120 +142,6 @@ namespace ESPN3Library
             // added 7/5/2011 - there are times where espn3 website is inaccessible or displays an error page and sports data cannot be retrieved
             if (sportsCollection.Count == 0)
                 throw new Exception("No sports retrieved. ESPN3 must be unavailable.");
-
-            return sportsCollection;
-        }
-
-        /// <summary>
-        /// Gets the events from watchespn
-        /// </summary>
-        /// <returns></returns>
-        public List<Sport> GetEvents()
-        {
-            #region Raw HTML
-
-            /*
-             * <section class="chart AR">
-    <h2>
-        Auto Racing</h2>
-    <table cellspacing="0" class="col-3">
-        <tr class="first espn3">
-            <td class="date">
-                8/05
-            </td>
-            <td class="time">
-                2:20 PM EDT
-            </td>
-            <td class="event">
-                <a href="#" onclick='launchPlayer("218865", "", "", ""); return false;' class="watchable">
-                    American Le Mans Series Mid-Ohio Sports Car Challenge (Qualifying Rounds)</a>
-            </td>
-            <td class="channel">
-                <span class="channel-logo channel-logo-espn3">espn3</span>
-            </td>
-        </tr>
-        <tr class="last espn3">
-            <td class="date">
-                8/06
-            </td>
-            <td class="time">
-                3:15 PM EDT
-            </td>
-            <td class="event">
-                <a href="#" onclick='launchPlayer("218891", "", "", ""); return false;' class="watchable">
-                    American Le Mans Series Mid-Ohio Sports Car Challenge</a>
-            </td>
-            <td class="channel">
-                <span class="channel-logo channel-logo-espn3">espn3</span>
-            </td>
-        </tr>
-        <tr class="last espn3">
-            <td class="date">
-                8/21
-            </td>
-            <td class="time">
-                12:00 PM EDT
-            </td>
-            <td class="event">
-                <a href="#" onclick='launchPlayer("219208", "", "", ""); return false;' class="watchable">
-                    Lucas Oil NHRA Nationals presented by Lucas Oil</a>
-            </td>
-            <td class="channel">
-                <span class="channel-logo channel-logo-espn3">espn3</span>
-            </td>
-        </tr>
-    </table>
-</section>
-             */
-
-            #endregion
-
-            List<Sport> sportsCollection = new List<Sport>();
-            string dataUrl = "http://espn.go.com/watchespn/format/design11/index/replay_events?xhr=1&days=all&searchTerm=";
-                              
-            HtmlWeb doc = new HtmlWeb();
-            HtmlNodeCollection rawData = doc.Load(dataUrl).DocumentNode.SelectNodes("//h2");
-
-            foreach (HtmlNode node in rawData)
-            {
-                Sport s = new Sport()
-                {
-                    Name = node.InnerText
-                };
-
-                League l = new League();
-
-                foreach (HtmlNode tableRow in node.NextSibling.NextSibling.ChildNodes.Where(n => n.Name.Equals("tr")))
-                {
-                    /*
-                        "/section[1]/table[1]/tr[1]/td[1]" 	// 8/05
-                        "/section[1]/table[1]/tr[1]/td[2]" 	// 3:15 PM EDT
-                        "/section[1]/table[1]/tr[1]/td[4]"	// <a href="#" onclick='launchPlayer("218891", "", "", ""); return false;' class="watchable">American Le Mans Series Mid-Ohio Sports Car Challenge</a>
-                        "/section[1]/table[1]/tr[1]/td[5]"	// <span class="channel-logo channel-logo-espn3">espn3</span>
-                    */
-
-                    string eventName = tableRow.ChildNodes[4].InnerText.Replace("\n\t\t\t", string.Empty).Trim();
-                    DateTime eventDT = DateTime.ParseExact(string.Concat(FormatDate(tableRow.ChildNodes[1].InnerText), FormatTime(tableRow.ChildNodes[2].InnerText)), "MMddhh:mm tt", null);
-
-                    Match m = new Match()
-                    {
-                        OccurrenceType = ListingType.REPLAY,
-                        Occurrence = eventDT,
-                        /*Date = (FormatDate(tableRow.ChildNodes[1].InnerText)),// + "2011",
-                        Time = FormatTime(tableRow.ChildNodes[2].InnerText),*/
-                        Category = node.InnerText,
-                        League = tableRow.ChildNodes[5].InnerText,
-                        Name = GetShortName(eventName),
-                        Description = eventName,
-                        VideoUrl = GetMatchVideoURL(tableRow.ChildNodes[4].InnerHtml)
-                    };
-
-                    l.Matches.Add(m);
-                }
-
-                s.Leagues.Add(l);
-                sportsCollection.Add(s);
-            }
 
             return sportsCollection;
         }
@@ -639,5 +483,176 @@ namespace ESPN3Library
         }
 
         #endregion
-    }
+
+		#region Obsolete Methods
+
+		[Obsolete]
+		public string GetVideoPageHTML()
+		{
+			HtmlWeb doc = new HtmlWeb();
+			doc.UserAgent = "Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 6.1; WOW64; Trident/5.0; SLCC2; .NET CLR 2.0.50727; .NET CLR 3.5.30729; .NET CLR 3.0.30729; Media Center PC 6.0; MediaCenter 6.1.7601.17514)";
+			HtmlDocument rawData = doc.Load("http://espn.go.com/espn3/player?id=20315");
+			return rawData.DocumentNode.InnerHtml;
+		}
+
+		/// <summary>
+		/// Returns all the listings for a particular sport
+		/// </summary>
+		/// <param name="sport">Sport to get listings for. If empty, defaults to all sports</param>
+		/// <returns>Listings</returns>
+		[Obsolete]
+		public List<Match> GetListings(string sport)
+		{
+			string dataUrl = baseUrl;
+
+#if (DEBUG)
+            // specify sport url value if sport is specified 
+            if (!string.IsNullOrEmpty(sport))
+                dataUrl = string.Concat(baseUrl, baseUrlAddition, sport);
+#endif
+
+			HtmlWeb doc = new HtmlWeb();
+			HtmlNodeCollection rawData = doc.Load(dataUrl).DocumentNode.SelectNodes("//div[@class='container listing']");
+
+			if (rawData != null)
+			{
+				for (int i = 0; i < rawData.Count; i++)
+				{
+					HtmlDocument rawListings = new HtmlDocument();
+					rawListings.LoadHtml(rawData[i].InnerHtml);
+
+					if (rawListings.DocumentNode.ChildNodes.Count > 1)  // if equal to 1 or less, then there are no matches
+					{
+						_listings.Sport = sport;
+
+						switch (i)
+						{
+							case 0: SetListingsContainer(rawListings, ListingType.LIVE); break;
+							//case 1: SetListingsContainer(rawListings, ListingType.UPCOMING); break;
+							case 2: SetListingsContainer(rawListings, ListingType.REPLAY); break;
+						}
+					}
+				}
+			}
+
+			return _matches;
+		}
+
+		/// <summary>
+		/// Gets the events from watchespn
+		/// </summary>
+		/// <returns></returns>
+		[Obsolete]
+		public List<Sport> GetEvents()
+		{
+			#region Raw HTML
+
+			/*
+             * <section class="chart AR">
+    <h2>
+        Auto Racing</h2>
+    <table cellspacing="0" class="col-3">
+        <tr class="first espn3">
+            <td class="date">
+                8/05
+            </td>
+            <td class="time">
+                2:20 PM EDT
+            </td>
+            <td class="event">
+                <a href="#" onclick='launchPlayer("218865", "", "", ""); return false;' class="watchable">
+                    American Le Mans Series Mid-Ohio Sports Car Challenge (Qualifying Rounds)</a>
+            </td>
+            <td class="channel">
+                <span class="channel-logo channel-logo-espn3">espn3</span>
+            </td>
+        </tr>
+        <tr class="last espn3">
+            <td class="date">
+                8/06
+            </td>
+            <td class="time">
+                3:15 PM EDT
+            </td>
+            <td class="event">
+                <a href="#" onclick='launchPlayer("218891", "", "", ""); return false;' class="watchable">
+                    American Le Mans Series Mid-Ohio Sports Car Challenge</a>
+            </td>
+            <td class="channel">
+                <span class="channel-logo channel-logo-espn3">espn3</span>
+            </td>
+        </tr>
+        <tr class="last espn3">
+            <td class="date">
+                8/21
+            </td>
+            <td class="time">
+                12:00 PM EDT
+            </td>
+            <td class="event">
+                <a href="#" onclick='launchPlayer("219208", "", "", ""); return false;' class="watchable">
+                    Lucas Oil NHRA Nationals presented by Lucas Oil</a>
+            </td>
+            <td class="channel">
+                <span class="channel-logo channel-logo-espn3">espn3</span>
+            </td>
+        </tr>
+    </table>
+</section>
+             */
+
+			#endregion
+
+			List<Sport> sportsCollection = new List<Sport>();
+			string dataUrl = "http://espn.go.com/watchespn/format/design11/index/replay_events?xhr=1&days=all&searchTerm=";
+
+			HtmlWeb doc = new HtmlWeb();
+			HtmlNodeCollection rawData = doc.Load(dataUrl).DocumentNode.SelectNodes("//h2");
+
+			foreach (HtmlNode node in rawData)
+			{
+				Sport s = new Sport()
+				{
+					Name = node.InnerText
+				};
+
+				League l = new League();
+
+				foreach (HtmlNode tableRow in node.NextSibling.NextSibling.ChildNodes.Where(n => n.Name.Equals("tr")))
+				{
+					/*
+						"/section[1]/table[1]/tr[1]/td[1]" 	// 8/05
+						"/section[1]/table[1]/tr[1]/td[2]" 	// 3:15 PM EDT
+						"/section[1]/table[1]/tr[1]/td[4]"	// <a href="#" onclick='launchPlayer("218891", "", "", ""); return false;' class="watchable">American Le Mans Series Mid-Ohio Sports Car Challenge</a>
+						"/section[1]/table[1]/tr[1]/td[5]"	// <span class="channel-logo channel-logo-espn3">espn3</span>
+					*/
+
+					string eventName = tableRow.ChildNodes[4].InnerText.Replace("\n\t\t\t", string.Empty).Trim();
+					DateTime eventDT = DateTime.ParseExact(string.Concat(FormatDate(tableRow.ChildNodes[1].InnerText), FormatTime(tableRow.ChildNodes[2].InnerText)), "MMddhh:mm tt", null);
+
+					Match m = new Match()
+					{
+						OccurrenceType = ListingType.REPLAY,
+						Occurrence = eventDT,
+						/*Date = (FormatDate(tableRow.ChildNodes[1].InnerText)),// + "2011",
+						Time = FormatTime(tableRow.ChildNodes[2].InnerText),*/
+						Category = node.InnerText,
+						League = tableRow.ChildNodes[5].InnerText,
+						Name = GetShortName(eventName),
+						Description = eventName,
+						VideoUrl = GetMatchVideoURL(tableRow.ChildNodes[4].InnerHtml)
+					};
+
+					l.Matches.Add(m);
+				}
+
+				s.Leagues.Add(l);
+				sportsCollection.Add(s);
+			}
+
+			return sportsCollection;
+		}
+
+		#endregion
+	}
 }

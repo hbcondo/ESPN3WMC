@@ -54,7 +54,7 @@ namespace ESPN3Library.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("http://espn.go.com/watchespn/feeds/startup?action={0}&rand={1}")]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://espn.go.com/watchespn/feeds/startup?action={0}&channel=espn3&rand={1}")]
         public string BaseDataUrl {
             get {
                 return ((string)(this["BaseDataUrl"]));
