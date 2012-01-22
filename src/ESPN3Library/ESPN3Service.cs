@@ -266,16 +266,23 @@ namespace ESPN3Library
 
                     foreach (XmlNode x in xmlnodeList)
                     {
-                        Match m = new Match();
-                        m.OccurrenceType = (ListingType)Enum.Parse(typeof(ListingType), x.Attributes["type"].InnerText.ToUpper());
-                        m.Occurrence = DateTime.ParseExact(x.SelectSingleNode("startTime").InnerText, "yyyyMMddHHmm", null);
-                        m.Category = x.SelectSingleNode("sportDisplayValue").InnerText;
-                        m.League = x.SelectSingleNode("league").InnerText;
-                        m.Name = GetShortName(x.SelectSingleNode("name").InnerText);
-                        m.Description = x.SelectSingleNode("name").InnerText;
-                        m.VideoUrl = string.Format(baseVideoUrl, playerResolution, x.Attributes["id"].InnerText);
+						try
+						{
+							Match m = new Match();
+							m.OccurrenceType = (ListingType)Enum.Parse(typeof(ListingType), x.Attributes["type"].InnerText.ToUpper());
+							m.Occurrence = DateTime.ParseExact(x.SelectSingleNode("startTime").InnerText, "yyyyMMddHHmm", null);
+							m.Category = x.SelectSingleNode("sportDisplayValue").InnerText;
+							m.League = x.SelectSingleNode("league").InnerText;
+							m.Name = GetShortName(x.SelectSingleNode("name").InnerText);
+							m.Description = x.SelectSingleNode("name").InnerText;
+							m.VideoUrl = string.Format(baseVideoUrl, playerResolution, x.Attributes["id"].InnerText);
 
-                        _matches.Add(m);
+							_matches.Add(m);
+						}
+						catch
+						{
+							// do nothing if there is an error attempting to parse an individual match
+						}
                     }
                 }
 
