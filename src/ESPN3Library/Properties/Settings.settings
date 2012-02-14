@@ -6,7 +6,7 @@
       <Value Profile="(Default)">3ce51f90-f6eb-437e-9680-802f20e0160e</Value>
     </Setting>
     <Setting Name="BaseVideoUrl" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">http://assets.espn.go.com/espn360/builds/espn3-player-web-app/1_16/espn3-player-web-app-1.16.swf?configUrl=http://espn.go.com/watchespn/player/config&amp;playerSize={0}&amp;id={1}</Value>
+      <Value Profile="(Default)">http://assets.espn.go.com/espn360/builds/espn3-player-web-app/1_18_1/espn3-player-web-app-1.18.1.swf?configUrl=http://espn.go.com/watchespn/player/config&amp;playerSize={0}&amp;id={1}</Value>
     </Setting>
     <Setting Name="BaseDataUrlAddition" Type="System.String" Scope="Application">
       <Value Profile="(Default)">/index/_/sport/</Value>
