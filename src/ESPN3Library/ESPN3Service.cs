@@ -158,7 +158,7 @@ namespace ESPN3Library
             // define urls where event data will be obtained from
             string replyEventsUrl = string.Format(baseUrl, "replay", GetRandomNumber());
             string liveEventsUrl = string.Format(baseUrl, "live", GetRandomNumber());
-            string[] dataUrls = { replyEventsUrl, liveEventsUrl };
+            string[] dataUrls = { liveEventsUrl, replyEventsUrl };
 
             foreach (string dataUrl in dataUrls)
             {
@@ -169,25 +169,8 @@ namespace ESPN3Library
                  */
                 try
                 {
-					WebRequest request = WebRequest.Create(dataUrl);
-					request.PreAuthenticate = false;
-					request.Timeout = 120000;	// 2 minutes
-					request.CachePolicy = new RequestCachePolicy(RequestCacheLevel.NoCacheNoStore);	// try to prevent caching of data
-
-					using (WebResponse webResponse = request.GetResponse())
-					{
-						using (StreamReader sr = new StreamReader(webResponse.GetResponseStream()))
-						{
-							espn3RawResponse = sr.ReadToEnd().Trim();
-						}
-					}
-
-					// arg, funky values in the response
-					string espn3RawResponse2 = espn3RawResponse.Replace("&", string.Empty);
-					
-					// load up the xml string into a xmldocument object so we can read the element data
 					XmlDocument xdoc = new XmlDocument();
-                    xdoc.LoadXml(espn3RawResponse2);
+					xdoc = GetRawEventData(dataUrl);
 
                     #region Raw XML returned from ESPN
 
@@ -297,6 +280,25 @@ namespace ESPN3Library
         #endregion
 
         #region Private Methods
+
+		/// <summary>
+		///		Return the XML from the event data feed
+		/// </summary>
+		/// <param name="url">Feed URL</param>
+		/// <returns>XML</returns>
+		internal XmlDocument GetRawEventData(string url)
+		{
+			string xmlStr;
+			using (var wc = new WebClient())
+			{
+				xmlStr = wc.DownloadString(url);
+			}
+
+			var xmlDoc = new XmlDocument();
+			xmlDoc.LoadXml(xmlStr);
+
+			return xmlDoc;
+		}
 
         /// <summary>
         /// Returns a random number.

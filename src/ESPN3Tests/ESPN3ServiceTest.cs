@@ -141,5 +141,14 @@ namespace ESPN3Tests
             actual = target.GetRandomNumber();
             Assert.AreEqual(11, actual.Length);
         }
+
+		[TestMethod()]
+		public void GetRawXMLTest()
+		{
+			ESPN3Library.ESPN3Service target = new ESPN3Service();
+			System.Xml.XmlDocument x = target.GetRawEventData("espn.go.com/watchespn/feeds/startup?action=live&channel=espn3&rand=32123060478");
+
+			Assert.IsNotNull(x);
+		}
     }
 }
