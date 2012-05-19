@@ -84,6 +84,13 @@
     <Compile Include="Test.ashx.cs">
       <DependentUpon>Test.ashx</DependentUpon>
     </Compile>
+    <Compile Include="VideoPlayer.aspx.cs">
+      <DependentUpon>VideoPlayer.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="VideoPlayer.aspx.designer.cs">
+      <DependentUpon>VideoPlayer.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Web References\wsESPN3\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -106,6 +113,7 @@
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
     <None Include="Web References\wsESPN3\service.disco" />
+    <Content Include="VideoPlayer.aspx" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
