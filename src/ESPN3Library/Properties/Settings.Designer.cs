@@ -34,9 +34,7 @@ namespace ESPN3Library.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("http://assets.espn.go.com/espn360/builds/espn3-player-web-app/1_23/espn3-player-w" +
-            "eb-app-1.23.swf?configUrl=http://espn.go.com/watchespn/player/config&playerSize=" +
-            "{0}&id={1}")]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://www.amarkota.com/webservices/espn3/VideoPlayer.aspx?r={0}&amp;i={1}")]
         public string BaseVideoUrl {
             get {
                 return ((string)(this["BaseVideoUrl"]));
