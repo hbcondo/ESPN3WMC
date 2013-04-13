@@ -6,7 +6,7 @@
       <Value Profile="(Default)">3ce51f90-f6eb-437e-9680-802f20e0160e</Value>
     </Setting>
     <Setting Name="BaseVideoUrl" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">http://www.amarkota.com/webservices/espn3/VideoPlayer.aspx?r={0}&amp;amp;i={1}</Value>
+      <Value Profile="(Default)">http://espn.go.com/watchespn/player/_/id/{1}/</Value>
     </Setting>
     <Setting Name="BaseDataUrlAddition" Type="System.String" Scope="Application">
       <Value Profile="(Default)">/index/_/sport/</Value>
