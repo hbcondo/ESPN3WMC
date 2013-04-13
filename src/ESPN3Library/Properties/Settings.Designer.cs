@@ -34,7 +34,7 @@ namespace ESPN3Library.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("http://www.amarkota.com/webservices/espn3/VideoPlayer.aspx?r={0}&amp;i={1}")]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://espn.go.com/watchespn/player/_/id/{1}/")]
         public string BaseVideoUrl {
             get {
                 return ((string)(this["BaseVideoUrl"]));
