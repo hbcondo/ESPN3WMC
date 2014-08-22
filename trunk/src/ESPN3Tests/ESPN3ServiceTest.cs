@@ -146,7 +146,7 @@ namespace ESPN3Tests
 		public void GetRawXMLTest()
 		{
 			ESPN3Library.ESPN3Service target = new ESPN3Service();
-			System.Xml.XmlDocument x = target.GetRawEventData("espn.go.com/watchespn/feeds/startup?action=live&channel=espn3&rand=32123060478");
+			System.Xml.XmlDocument x = target.GetRawEventData("http://sports-ak.espn.go.com/watchespn/feeds/startup?action=live&channel=espn3&rand=32123060478");
 
 			Assert.IsNotNull(x);
 		}

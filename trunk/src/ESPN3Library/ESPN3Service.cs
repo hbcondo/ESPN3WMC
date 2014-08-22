@@ -154,10 +154,12 @@ namespace ESPN3Library
         {
             // define screen resolution value to be passed into VideoUrl property of Match object
             string playerResolution = string.Concat(this._screenResolutionWidth, "x", this._screenResolutionHeight);
+			string startDate = DateTime.Now.AddYears(-1).ToString("yyyyMMdd");
+			string endDate = DateTime.Now.ToString("yyyyMMdd");
 
             // define urls where event data will be obtained from
-            string replyEventsUrl = string.Format(baseUrl, "replay", GetRandomNumber());
-            string liveEventsUrl = string.Format(baseUrl, "live", GetRandomNumber());
+			string replyEventsUrl = string.Format(baseUrl, "replay", GetRandomNumber(), startDate, endDate);
+			string liveEventsUrl = string.Format(baseUrl, "live", GetRandomNumber(), startDate, endDate);
             string[] dataUrls = { liveEventsUrl, replyEventsUrl };
 
             foreach (string dataUrl in dataUrls)
