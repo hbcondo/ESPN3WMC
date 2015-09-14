@@ -295,12 +295,27 @@ namespace ESPN3Library
 			{
 				xmlStr = wc.DownloadString(url);
 			}
-
+			xmlStr = CleanInvalidXmlChars(xmlStr);
 			var xmlDoc = new XmlDocument();
 			xmlDoc.LoadXml(xmlStr);
 
 			return xmlDoc;
 		}
+
+		/// <summary>
+		/// Clean all invalid XML characters
+		/// </summary>
+		/// <remarks>
+		/// This came about after seeing weird explaination points in XML: <name><![CDATA[M. Buis / S. Ellerbrock vs. (2) J. Griffoen / A. Van Koot (Wheelchair Doubles!! Final)]]></name>
+		/// http://stackoverflow.com/questions/19399075/remove-all-hexadecimal-characters-before-loading-string-into-xml-document-object
+		/// </remarks>
+		/// <param name="text">XML to clean</param>
+		/// <returns>string</returns>
+		internal static string CleanInvalidXmlChars(string text)
+		{
+			string re = @"[^\x09\x0A\x0D\x20-\xD7FF\xE000-\xFFFD\x10000-x10FFFF]";
+			return System.Text.RegularExpressions.Regex.Replace(text, re, "");
+		} 
 
         /// <summary>
         /// Returns a random number.
